@@ -1,8 +1,10 @@
 import { ArrowUpRight, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import RevealOnScroll from "@/components/RevealOnScroll";
+import { useNavigate } from "react-router-dom";
 
 const Services = () => {
+  const navigate = useNavigate();
   const services = [
     {
       image: "https://lirp.cdn-website.com/eccf826b/dms3rep/multi/opt/Lambo+2-1200h.jpg",
@@ -23,13 +25,6 @@ const Services = () => {
 
   const scrollToContact = () => {
     const element = document.querySelector("#contact");
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
-  const scrollToRooms = () => {
-    const element = document.querySelector("#rooms");
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
     }
@@ -59,7 +54,7 @@ const Services = () => {
             </p>
             <div className="flex flex-wrap gap-8 items-center">
               <button
-                onClick={scrollToRooms}
+                onClick={() => navigate('/fleet')}
                 className="group flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-black border-b-2 border-black pb-1 hover:text-primary hover:border-primary transition-all duration-300"
               >
                 View Fleet <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />

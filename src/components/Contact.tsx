@@ -1,21 +1,14 @@
 import { useState } from "react";
 import { Button } from "./ui/button";
-import { Input } from "./ui/input";
-import { Textarea } from "./ui/textarea";
-import { CheckCircle2, ArrowUpRight, Car, ShieldCheck, Clock, Star } from "lucide-react";
+import { CheckCircle2 } from "lucide-react";
 
 const Contact = () => {
   const [formState, setFormState] = useState({
     name: "",
-    phone: "",
     email: "",
-    pickupDate: "",
-    returnDate: "",
-    vehicle: "",
-    location: "",
-    driversAge: "",
-    purpose: "",
-    source: "",
+    phone: "",
+    location: "Boston, MA",
+    service: "Daily Rental",
     message: ""
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -33,24 +26,26 @@ const Contact = () => {
     setFormState(prev => ({ ...prev, [field]: value }));
   };
 
-  const inputClass = "bg-white border-[#e5e7eb] focus:border-black rounded-none h-14 px-4 text-base transition-colors placeholder:text-gray-400";
-  const selectClass = "w-full h-14 px-4 bg-white border border-[#e5e7eb] focus:border-black rounded-none text-base outline-none text-gray-900 transition-colors appearance-none";
-  const labelClass = "text-base font-normal text-gray-500";
+  const inputClass = "w-full bg-transparent border-b border-black py-4 text-xl focus:outline-none placeholder:text-gray-400 transition-colors rounded-none font-sans";
+  const labelClass = "block text-xs font-mono uppercase tracking-widest text-black mb-2 mt-10";
+  
+  const locations = ["Boston, MA", "Miami, FL", "Atlanta, GA", "Los Angeles, CA"];
+  const services = ["Daily Rental", "Chauffeur Service", "Photo / Video Shoot", "Special Event"];
 
   if (isSuccess) {
     return (
-      <section id="contact" className="py-24 bg-black flex items-center justify-center min-h-[600px]">
-        <div className="bg-white p-12 rounded-none shadow-xl text-center max-w-lg mx-4 animate-fade-in border border-gray-100">
+      <section id="contact" className="py-24 bg-[#f4f4f4] flex items-center justify-center min-h-[600px]">
+        <div className="bg-white p-12 shadow-sm text-center max-w-lg mx-4 animate-fade-in border border-gray-200">
           <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
             <CheckCircle2 className="w-10 h-10 text-green-600" />
           </div>
-          <h3 className="text-3xl font-bold font-onest text-gray-900 mb-4">Request Received!</h3>
-          <p className="text-gray-600 font-sans mb-8">
-            Thank you! A member of our team will reach out within 24 hours to confirm your reservation.
+          <h3 className="text-3xl font-medium font-sans text-black mb-4 tracking-tight">Request Received</h3>
+          <p className="text-gray-600 font-sans mb-8 text-lg">
+            Thank you! A member of our team will reach out shortly to confirm your reservation parameters.
           </p>
           <Button
             onClick={() => setIsSuccess(false)}
-            className="bg-black text-white px-8 py-3 rounded-none font-bold hover:bg-gray-900 transition-all tracking-widest uppercase"
+            className="bg-black text-white px-8 py-6 rounded-none font-bold hover:bg-gray-800 transition-all tracking-widest uppercase text-xs"
           >
             Submit Another Request
           </Button>
@@ -60,248 +55,118 @@ const Contact = () => {
   }
 
   return (
-    <section id="contact" className="py-20 lg:py-28 bg-black overflow-hidden relative">
+    <section id="contact" className="py-24 lg:py-32 bg-black overflow-hidden relative border-t border-white/10">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-start">
-
-          {/* Left Column: Content */}
-          <div className="space-y-8 pt-10 sticky top-24">
-            <div className="inline-block px-4 py-2 border border-gray-600 rounded-full">
-              <span className="text-xs font-bold tracking-widest uppercase text-gray-400">Reserve Your Vehicle</span>
-            </div>
-
-            <h2 className="text-4xl sm:text-5xl lg:text-5xl font-normal font-onest text-white leading-[1.1]">
-              Ready to Drive <br />
-              Something Exotic?
-            </h2>
-
-            <p className="text-lg text-gray-400 font-sans max-w-md leading-relaxed font-normal">
-              Fill out the form and one of our specialists will craft a personalized rental experience for you. Available in Boston, Miami, Atlanta &amp; Los Angeles.
+        <div className="max-w-5xl mx-auto bg-[#f4f4f4] p-8 sm:p-16 lg:p-20 shadow-2xl relative">
+          
+          {/* Header */}
+          <div className="mb-16">
+            <p className="text-sm font-mono uppercase tracking-widest text-black mb-8 font-medium">
+              // GET IN TOUCH
             </p>
-
-            {/* Trust Badges */}
-            <div className="grid grid-cols-1 gap-5 pt-4">
-              <div className="flex items-center gap-4">
-                <div className="w-10 h-10 border border-gray-700 flex items-center justify-center flex-shrink-0">
-                  <ShieldCheck className="w-5 h-5 text-gray-400" />
-                </div>
-                <div>
-                  <p className="text-white text-sm font-bold uppercase tracking-wider">Fully Insured Fleet</p>
-                  <p className="text-gray-500 text-xs">Every vehicle is covered &amp; maintained</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-4">
-                <div className="w-10 h-10 border border-gray-700 flex items-center justify-center flex-shrink-0">
-                  <Clock className="w-5 h-5 text-gray-400" />
-                </div>
-                <div>
-                  <p className="text-white text-sm font-bold uppercase tracking-wider">24/7 Support</p>
-                  <p className="text-gray-500 text-xs">Our team is always a call away</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-4">
-                <div className="w-10 h-10 border border-gray-700 flex items-center justify-center flex-shrink-0">
-                  <Star className="w-5 h-5 text-gray-400" />
-                </div>
-                <div>
-                  <p className="text-white text-sm font-bold uppercase tracking-wider">5-Star Experience</p>
-                  <p className="text-gray-500 text-xs">Hundreds of verified Google reviews</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-4">
-                <div className="w-10 h-10 border border-gray-700 flex items-center justify-center flex-shrink-0">
-                  <Car className="w-5 h-5 text-gray-400" />
-                </div>
-                <div>
-                  <p className="text-white text-sm font-bold uppercase tracking-wider">Premium Fleet</p>
-                  <p className="text-gray-500 text-xs">Lamborghini, Ferrari, Porsche &amp; more</p>
-                </div>
-              </div>
-            </div>
+            <h2 className="text-4xl sm:text-5xl lg:text-[56px] font-normal leading-[1.1] text-[#111] tracking-tight font-sans">
+              For any inquiries or to secure the exotic vehicle of your choice, we invite you to contact our team by filling out the form below.
+            </h2>
           </div>
 
-          {/* Right Column: Form */}
-          <div className="bg-white rounded-[4px] p-8 sm:p-10 shadow-lg relative">
+          <div className="w-full h-px bg-gray-300 mb-10"></div>
 
-            <div className="mb-8">
-              <h3 className="text-3xl font-medium font-onest text-gray-900 tracking-tight">Start Your Reservation</h3>
-              <p className="text-gray-500 text-sm mt-2">Complete the form below — we'll get back to you within 24 hours.</p>
+          {/* Minimalist Form */}
+          <form onSubmit={handleSubmit} className="space-y-6">
+
+            <div>
+              <label className={labelClass}>Name *</label>
+              <input
+                required
+                placeholder="John Smith"
+                className={inputClass}
+                value={formState.name}
+                onChange={(e) => handleInputChange('name', e.target.value)}
+              />
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <div>
+              <label className={labelClass}>Email *</label>
+              <input
+                required
+                type="email"
+                placeholder="john@gmail.com"
+                className={inputClass}
+                value={formState.email}
+                onChange={(e) => handleInputChange('email', e.target.value)}
+              />
+            </div>
 
-              {/* Row 1: Name & Phone */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-6">
-                <div className="space-y-2">
-                  <label className={labelClass}>Full Name</label>
-                  <Input
-                    required
-                    placeholder="Your full name"
-                    className={inputClass}
-                    onChange={(e) => handleInputChange('name', e.target.value)}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <label className={labelClass}>Phone Number</label>
-                  <Input
-                    required
-                    type="tel"
-                    placeholder="(000) 000-0000"
-                    className={inputClass}
-                    onChange={(e) => handleInputChange('phone', e.target.value)}
-                  />
-                </div>
-              </div>
+            <div>
+              <label className={labelClass}>Phone *</label>
+              <input
+                required
+                type="tel"
+                placeholder="(555) 000-0000"
+                className={inputClass}
+                value={formState.phone}
+                onChange={(e) => handleInputChange('phone', e.target.value)}
+              />
+            </div>
 
-              {/* Row 2: Email & Driver's Age */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-6">
-                <div className="space-y-2">
-                  <label className={labelClass}>Email Address</label>
-                  <Input
-                    required
-                    type="email"
-                    placeholder="you@email.com"
-                    className={inputClass}
-                    onChange={(e) => handleInputChange('email', e.target.value)}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <label className={labelClass}>Driver's Age</label>
-                  <select
-                    required
-                    className={selectClass}
-                    onChange={(e) => handleInputChange('driversAge', e.target.value)}
+            <div className="pt-6">
+              <label className={labelClass}>What location are you renting in?</label>
+              <div className="flex flex-wrap gap-4 mt-6">
+                {locations.map((loc) => (
+                  <div
+                    key={loc}
+                    onClick={() => handleInputChange('location', loc)}
+                    className="bg-white px-6 py-4 cursor-pointer flex items-center border border-transparent hover:border-black/5 transition-all shadow-sm group"
                   >
-                    <option value="">Select age range...</option>
-                    <option value="21-24">21 – 24</option>
-                    <option value="25-29">25 – 29</option>
-                    <option value="30-39">30 – 39</option>
-                    <option value="40+">40+</option>
-                  </select>
-                </div>
+                    <div className={`w-5 h-5 flex-shrink-0 rounded-full border flex items-center justify-center mr-3 transition-colors ${formState.location === loc ? 'border-[#F2A900]' : 'border-gray-300'}`}>
+                      {formState.location === loc && <div className="w-3 h-3 bg-[#F2A900] rounded-full" />}
+                    </div>
+                    <span className="text-base font-sans text-gray-800">{loc}</span>
+                  </div>
+                ))}
               </div>
+            </div>
 
-              {/* Row 3: Pickup & Return Dates */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-6">
-                <div className="space-y-2">
-                  <label className={labelClass}>Pickup Date</label>
-                  <Input
-                    required
-                    type="date"
-                    className={inputClass}
-                    onChange={(e) => handleInputChange('pickupDate', e.target.value)}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <label className={labelClass}>Return Date</label>
-                  <Input
-                    required
-                    type="date"
-                    className={inputClass}
-                    onChange={(e) => handleInputChange('returnDate', e.target.value)}
-                  />
-                </div>
-              </div>
-
-              {/* Row 4: Vehicle & Location */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-6">
-                <div className="space-y-2">
-                  <label className={labelClass}>Desired Vehicle</label>
-                  <select
-                    required
-                    className={selectClass}
-                    onChange={(e) => handleInputChange('vehicle', e.target.value)}
+            <div className="pt-4">
+              <label className={labelClass}>What service are you most interested in?</label>
+              <div className="flex flex-wrap gap-4 mt-6">
+                {services.map((srv) => (
+                  <div
+                    key={srv}
+                    onClick={() => handleInputChange('service', srv)}
+                    className="bg-white px-6 py-4 cursor-pointer flex items-center border border-transparent hover:border-black/5 transition-all shadow-sm group"
                   >
-                    <option value="">Select a vehicle...</option>
-                    <option value="Lamborghini Urus">Lamborghini Urus</option>
-                    <option value="Lamborghini Huracán">Lamborghini Huracán</option>
-                    <option value="Ferrari 488">Ferrari 488</option>
-                    <option value="Ferrari Roma">Ferrari Roma</option>
-                    <option value="Porsche 911">Porsche 911</option>
-                    <option value="Porsche Cayenne">Porsche Cayenne</option>
-                    <option value="Rolls-Royce Cullinan">Rolls-Royce Cullinan</option>
-                    <option value="Bentley Bentayga">Bentley Bentayga</option>
-                    <option value="McLaren 720S">McLaren 720S</option>
-                    <option value="Other / Unsure">Other / Not Sure Yet</option>
-                  </select>
-                </div>
-                <div className="space-y-2">
-                  <label className={labelClass}>Pickup Location</label>
-                  <select
-                    required
-                    className={selectClass}
-                    onChange={(e) => handleInputChange('location', e.target.value)}
-                  >
-                    <option value="">Select a city...</option>
-                    <option value="Boston, MA">Boston, MA</option>
-                    <option value="Miami, FL">Miami, FL</option>
-                    <option value="Atlanta, GA">Atlanta, GA</option>
-                    <option value="Los Angeles, CA">Los Angeles, CA</option>
-                  </select>
-                </div>
+                    <div className={`w-5 h-5 flex-shrink-0 rounded-full border flex items-center justify-center mr-3 transition-colors ${formState.service === srv ? 'border-[#F2A900]' : 'border-gray-300'}`}>
+                      {formState.service === srv && <div className="w-3 h-3 bg-[#F2A900] rounded-full" />}
+                    </div>
+                    <span className="text-base font-sans text-gray-800">{srv}</span>
+                  </div>
+                ))}
               </div>
+            </div>
 
-              {/* Rental Purpose */}
-              <div className="space-y-2">
-                <label className={labelClass}>Rental Purpose</label>
-                <select
-                  className={selectClass}
-                  onChange={(e) => handleInputChange('purpose', e.target.value)}
-                >
-                  <option value="">What's the occasion?</option>
-                  <option value="Weekend Getaway">Weekend Getaway</option>
-                  <option value="Special Event">Special Event (Wedding / Birthday)</option>
-                  <option value="PhotoShoot">PhotoShoot / Content Creation</option>
-                  <option value="Chauffeur">Chauffeur Service</option>
-                  <option value="Business">Business / Corporate</option>
-                  <option value="Vacation">Vacation / Travel</option>
-                  <option value="Other">Other</option>
-                </select>
-              </div>
+            <div className="pt-6 pb-4">
+              <label className={labelClass}>Message &amp; Preferred Vehicle *</label>
+              <textarea
+                required
+                placeholder="Hello, I'm interested in..."
+                className="w-full bg-white/50 border border-[#F2A900] min-h-[160px] p-5 text-xl focus:outline-none placeholder:text-gray-400 transition-colors rounded-none font-sans mt-4"
+                value={formState.message}
+                onChange={(e) => handleInputChange('message', e.target.value)}
+              />
+            </div>
 
-              {/* How did you hear */}
-              <div className="space-y-2">
-                <label className={labelClass}>How Did You Hear About Us?</label>
-                <select
-                  className={selectClass}
-                  onChange={(e) => handleInputChange('source', e.target.value)}
-                >
-                  <option value="">Select a source...</option>
-                  <option value="Google">Google Search</option>
-                  <option value="Instagram">Instagram</option>
-                  <option value="TikTok">TikTok</option>
-                  <option value="Referral">Friend / Referral</option>
-                  <option value="Repeat">Returning Client</option>
-                  <option value="Other">Other</option>
-                </select>
-              </div>
+            <div className="pt-8">
+              <Button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full sm:w-auto h-16 px-12 bg-black hover:bg-gray-800 text-white text-xs font-mono font-bold tracking-[0.2em] uppercase rounded-none transition-all duration-300"
+              >
+                {isSubmitting ? "Sending..." : "Submit Inquiry"}
+              </Button>
+            </div>
 
-              {/* Message */}
-              <div className="space-y-2">
-                <label className={labelClass}>Additional Notes (Optional)</label>
-                <Textarea
-                  placeholder="Any special requests, questions, or details about your rental?"
-                  className="bg-white border-[#e5e7eb] focus:border-black rounded-none min-h-[130px] p-4 text-base resize-none transition-colors placeholder:text-gray-400"
-                  onChange={(e) => handleInputChange('message', e.target.value)}
-                />
-              </div>
-
-              {/* Submit */}
-              <div className="flex justify-end pt-4">
-                <Button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="h-16 px-10 bg-[#161616] hover:bg-black text-white text-base font-bold uppercase tracking-widest rounded-none shadow-none transition-all duration-300 flex items-center gap-3 group"
-                >
-                  <span className="relative z-10 border-b border-white pb-0.5 leading-none">
-                    {isSubmitting ? "Sending..." : "Reserve Now"}
-                  </span>
-                  {!isSubmitting && <ArrowUpRight size={20} />}
-                </Button>
-              </div>
-
-            </form>
-          </div>
+          </form>
 
         </div>
       </div>

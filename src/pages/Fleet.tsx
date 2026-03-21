@@ -45,11 +45,11 @@ const Fleet = () => {
                             </div>
                         </div>
 
-                        <div className="space-y-0 text-sm">
+                        <div className="grid grid-cols-2 lg:grid-cols-1 gap-x-4 lg:gap-x-0 text-sm">
                             {filters.map((filter) => (
-                                <div key={filter} className="border-b py-4 flex justify-between items-center cursor-pointer hover:bg-gray-50 transition-colors">
-                                    <span className="font-semibold text-gray-900">{filter}</span>
-                                    <Plus className="w-4 h-4 text-gray-900" />
+                                <div key={filter} className="border-b border-gray-200 py-4 flex justify-between items-center cursor-pointer hover:bg-gray-50 transition-colors">
+                                    <span className="font-semibold text-gray-900 truncate pr-2">{filter}</span>
+                                    <Plus className="w-4 h-4 text-gray-900 flex-shrink-0" />
                                 </div>
                             ))}
                         </div>

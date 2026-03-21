@@ -1,4 +1,4 @@
-import { Star, Quote } from "lucide-react";
+import { Star, Quote, ArrowUpRight } from "lucide-react";
 import useEmblaCarousel from 'embla-carousel-react';
 import Autoplay from 'embla-carousel-autoplay';
 import { useCallback, useEffect, useState } from "react";
@@ -108,6 +108,19 @@ const Reviews = () => {
               ))}
             </div>
           </div>
+        </div>
+
+        {/* View More Reviews CTA */}
+        <div className="mt-16 text-center animate-fade-in relative z-10">
+          <a
+            href="https://maps.app.goo.gl/7Km7zf1edbvgBjss6"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-3 bg-[#1a1a1a] hover:bg-[#333] text-white px-10 py-5 text-sm font-bold uppercase tracking-[0.2em] rounded-none transition-all duration-300 hover:shadow-xl group"
+          >
+            Read All Reviews On Google
+            <ArrowUpRight className="w-5 h-5 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+          </a>
         </div>
 
       </div>

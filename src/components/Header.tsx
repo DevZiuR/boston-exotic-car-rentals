@@ -13,7 +13,7 @@ const cities = [
   {
     label: "Boston",
     value: "Boston",
-    image: "https://www.travelandleisure.com/thmb/_aMbik8KZYsUKc_6_XNeAOzPi84=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/boston-massachusetts-BOSTONTG0221-719aef2eeb1c4929b6c839715e34a69e.jpg",
+    image: "https://www.bu.edu/admissions/files/2018/07/17-2005-AERIALS-101-cropped-e1535295662889-1200x675.jpg",
     count: "1 vehicle",
   },
   {
@@ -126,11 +126,10 @@ const Header = () => {
 
   return (
     <header
-      className={`fixed w-full z-50 transition-all duration-300 ${
-        !isHomePage || scrolled
-          ? "bg-black backdrop-blur-md lg:pb-4"
-          : "bg-black lg:bg-transparent"
-      }`}
+      className={`fixed w-full z-50 transition-all duration-300 ${!isHomePage || scrolled
+        ? "bg-black backdrop-blur-md lg:pb-4"
+        : "bg-black lg:bg-transparent"
+        }`}
     >
       {/* Promo Top Bar */}
       <div className="w-full bg-black py-2 text-center border-b border-white/10">
@@ -173,19 +172,17 @@ const Header = () => {
                     >
                       {link.name}
                       <ChevronDown
-                        className={`w-3.5 h-3.5 transition-transform duration-300 ${
-                          fleetDropdownOpen ? "rotate-180" : "rotate-0"
-                        }`}
+                        className={`w-3.5 h-3.5 transition-transform duration-300 ${fleetDropdownOpen ? "rotate-180" : "rotate-0"
+                          }`}
                       />
                     </button>
 
                     {/* Horizontal Mega-menu */}
                     <div
-                      className={`fixed left-0 right-0 top-full transition-all duration-300 origin-top ${
-                        fleetDropdownOpen
-                          ? "opacity-100 translate-y-0 pointer-events-auto"
-                          : "opacity-0 -translate-y-3 pointer-events-none"
-                      }`}
+                      className={`fixed left-0 right-0 top-full transition-all duration-300 origin-top ${fleetDropdownOpen
+                        ? "opacity-100 translate-y-0 pointer-events-auto"
+                        : "opacity-0 -translate-y-3 pointer-events-none"
+                        }`}
                     >
                       <div className="bg-black border-t border-white/10 shadow-2xl px-6 py-6">
                         <div className="max-w-[1400px] mx-auto">
