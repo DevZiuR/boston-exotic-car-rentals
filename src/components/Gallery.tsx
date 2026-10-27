@@ -161,8 +161,7 @@ const Gallery = () => {
           {filteredFleet.map((car) => (
             <StaggerItem key={car.id} className="h-full">
               <div
-                className="group relative flex flex-col bg-white rounded-2xl overflow-hidden transition-all duration-300 cursor-pointer h-full border-0 shadow-none"
-                onClick={() => navigate(`/fleet/${car.slug}`)}
+                className="group relative flex flex-col bg-white rounded-2xl overflow-hidden transition-all duration-300 h-full border-0 shadow-none"
               >
                 {/* 16:10 Photo Ratio Container */}
                 <div className="relative aspect-[16/10] overflow-hidden bg-neutral-200">
@@ -174,7 +173,7 @@ const Gallery = () => {
                       onError={(e) => {
                         (e.target as HTMLImageElement).src = "/images/fleet/galaxy-starlight.jpg";
                       }}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      className="w-full h-full object-cover transition-transform duration-700"
                     />
                   ) : (
                     <div className="w-full h-full flex flex-col items-center justify-center bg-neutral-100 text-neutral-500">
@@ -197,7 +196,7 @@ const Gallery = () => {
                 <div className="p-5 flex flex-col flex-1 justify-between gap-4 bg-white">
                   <div>
                     {/* Vehicle Name (without (ATL)/(MIA)) */}
-                    <h3 className="text-xl font-bold text-[#0b0b0e] tracking-tight group-hover:text-[#b3122e] transition-colors line-clamp-1">
+                    <h3 className="text-xl font-bold text-[#0b0b0e] tracking-tight line-clamp-1">
                       {cleanTitle(car.title)}
                     </h3>
 

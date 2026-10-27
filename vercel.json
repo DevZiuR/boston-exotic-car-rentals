@@ -1,0 +1,15 @@
+{
+  "redirects": [
+    {
+      "source": "/fleet/:slug+",
+      "destination": "/#fleet",
+      "permanent": false
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}

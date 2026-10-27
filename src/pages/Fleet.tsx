@@ -89,12 +89,11 @@ const Fleet = () => {
                                     {cars.filter(car => car.location === city || car.location === "Nationwide" || city === "Nationwide").map((car, carIndex) => (
                                         <RevealOnScroll key={`${city}-${car.id}`} staggerIndex={carIndex % 6} className="h-full">
                                             <div
-                                                className="border border-neutral-800 hover:border-[#b3122e]/50 hover:shadow-2xl hover:shadow-black/70 transition-all duration-300 bg-[#161616] flex flex-col cursor-pointer group h-full rounded-xl overflow-hidden"
-                                                onClick={() => navigate(`/fleet/${car.slug}`)}
+                                                className="border border-neutral-800 bg-[#161616] flex flex-col group h-full rounded-xl overflow-hidden"
                                             >
                                                 <div className="relative aspect-[16/10] overflow-hidden bg-neutral-900">
                                                     {car.image ? (
-                                                        <img src={car.image} alt={cleanTitle(car.title)} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                                                        <img src={car.image} alt={cleanTitle(car.title)} className="w-full h-full object-cover transition-transform duration-500" />
                                                     ) : (
                                                         <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-neutral-900 to-neutral-950 text-neutral-500">
                                                             <CarIcon className="w-10 h-10 mb-2 stroke-[1.5] text-neutral-600" />
@@ -119,7 +118,7 @@ const Fleet = () => {
 
                                                 <div className="p-5 flex flex-col flex-1 justify-between gap-4">
                                                     <div>
-                                                        <h3 className="text-lg font-bold text-white tracking-tight group-hover:text-[#b3122e] transition-colors line-clamp-1">
+                                                        <h3 className="text-lg font-bold text-white tracking-tight line-clamp-1">
                                                             {cleanTitle(car.title)}
                                                         </h3>
                                                         <p className="text-xs text-zinc-400 font-sans mt-1">
