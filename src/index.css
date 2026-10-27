@@ -179,6 +179,26 @@ button.cta-btn {
   -webkit-text-stroke: 0px transparent !important;
 }
 
+/* Hero Outline Text for "THE STARS." */
+.hero-outline-stars {
+  -webkit-text-stroke: 2px #ffffff;
+  background-clip: none;
+  -webkit-background-clip: none;
+  color: rgba(255, 255, 255, 0.1);
+  -webkit-text-fill-color: rgba(255, 255, 255, 0.1);
+  paint-order: stroke fill;
+  stroke-linejoin: round;
+  text-shadow: 0 0 40px rgba(255, 255, 255, 0.15);
+}
+
+@media (min-width: 640px) {
+  .hero-outline-stars {
+    -webkit-text-stroke: 2.5px #ffffff;
+    color: rgba(255, 255, 255, 0.1);
+    -webkit-text-fill-color: rgba(255, 255, 255, 0.1);
+  }
+}
+
 @layer components {
 
   /* Hero Section Styles */

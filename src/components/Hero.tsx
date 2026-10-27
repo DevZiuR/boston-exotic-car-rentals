@@ -131,8 +131,8 @@ const Hero = () => {
         <RevealOnScroll isHeading className="flex flex-col items-center">
 
           <h1 className="text-[38px] sm:text-[56px] md:text-[76px] lg:text-[90px] text-white font-serif leading-[1.05] tracking-[-0.02em] mb-6 drop-shadow-[0_4px_24px_rgba(0,0,0,0.9)] text-center">
-            ARRIVE UNDER<br />
-            <em className="not-italic italic">THE STARS.</em>
+            <span className="text-white">ARRIVE UNDER</span><br />
+            <span className="hero-outline-stars italic">THE STARS.</span>
           </h1>
 
           <p className="text-base sm:text-lg md:text-xl text-white/90 font-sans max-w-2xl mx-auto leading-relaxed drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)] tracking-wide">
