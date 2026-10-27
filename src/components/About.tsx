@@ -1,76 +1,111 @@
-import { CheckCircle2 } from "lucide-react";
+import React, { useEffect, useRef, useState } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import RevealOnScroll from "./RevealOnScroll";
+
+gsap.registerPlugin(ScrollTrigger);
+
+const ABOUT_TEXT =
+  "We built Smoove around the arrival. Galaxy-roof Escalades, Maybachs, Rolls-Royces and Sprinters, driven by professional chauffeurs, for airport transfers, nights out, events and photoshoots.";
+
+const WORDS = ABOUT_TEXT.split(" ");
 
 const About = () => {
-  const checkItems = [
-    "🏎️ World-Class Exotic Fleet",
-    "📍 4 Locations Nationwide",
-    "🛡️ Fully Insured Vehicles",
-    "📸 PhotoShoot Rentals Available",
-    "🎩 Chauffeur Services",
-    "💳 All Payment Methods Accepted",
-  ];
+  const paragraphRef = useRef<HTMLParagraphElement>(null);
+  const [reducedMotion, setReducedMotion] = useState(false);
 
-  const stats = [
-    { label: "HAPPY CLIENTS", value: "500+" },
-    { label: "EXOTIC VEHICLES", value: "30+" },
-    { label: "CITIES SERVED", value: "4" },
-    { label: "GOOGLE RATING", value: "5★" },
-  ];
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setReducedMotion(mediaQuery.matches);
+
+    const handleChange = (e: MediaQueryListEvent) => {
+      setReducedMotion(e.matches);
+    };
+
+    mediaQuery.addEventListener?.("change", handleChange);
+
+    return () => {
+      mediaQuery.removeEventListener?.("change", handleChange);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (reducedMotion || !paragraphRef.current) return;
+
+    const ctx = gsap.context(() => {
+      const words = paragraphRef.current?.querySelectorAll<HTMLElement>(".about-word");
+      if (!words || words.length === 0) return;
+
+      gsap.fromTo(
+        words,
+        { opacity: 0.15 },
+        {
+          opacity: 1,
+          stagger: 0.08,
+          ease: "none",
+          scrollTrigger: {
+            trigger: paragraphRef.current,
+            start: "top 85%",
+            end: "bottom 55%",
+            scrub: 0.5,
+            invalidateOnRefresh: true,
+          },
+        }
+      );
+    }, paragraphRef);
+
+    ScrollTrigger.refresh();
+    const refreshTimer = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 350);
+
+    const handleResize = () => {
+      ScrollTrigger.refresh();
+    };
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      clearTimeout(refreshTimer);
+      window.removeEventListener("resize", handleResize);
+      ctx.revert();
+    };
+  }, [reducedMotion]);
 
   return (
-    <section id="about" className="py-16 md:py-24 bg-white overflow-hidden">
-      <div className="container mx-auto px-4 md:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-          {/* Left Column: Content */}
-          <div className="flex flex-col space-y-8">
-            <div>
-              <span className="inline-block px-3 py-1 border border-gray-300 text-[10px] md:text-xs font-bold tracking-widest uppercase mb-6">
-                ABOUT 88 EXOTIC
+    <section
+      id="about"
+      className="relative bg-[#faf8f5] text-[#0b0b0e] py-10 sm:py-12 md:py-14 px-4 sm:px-6 lg:px-8 overflow-hidden border-b border-black/[0.05]"
+    >
+      <div className="container mx-auto max-w-4xl flex flex-col items-center text-center">
+        {/* Pill Badge */}
+        <RevealOnScroll className="flex flex-col items-center">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-black/[0.08] shadow-[0_2px_8px_rgba(0,0,0,0.03)] mb-4 sm:mb-5">
+            <span className="text-[#b3122e] text-xs font-bold leading-none select-none" aria-hidden="true">✱</span>
+            <span className="text-[11px] sm:text-xs font-mono font-bold uppercase tracking-[0.2em] text-[#0b0b0e]">
+              ABOUT US
+            </span>
+          </div>
+        </RevealOnScroll>
+
+        {/* Large Editorial Statement with Scroll-Driven Word Reveal */}
+        <p
+          ref={paragraphRef}
+          className="about-statement text-[28px] sm:text-3xl md:text-4xl lg:text-[44px] xl:text-[48px] font-normal leading-[1.24] sm:leading-[1.2] md:leading-[1.22] tracking-[-0.015em] text-center max-w-4xl mx-auto text-[#0b0b0e] break-words"
+        >
+          {WORDS.map((word, index) => (
+            <React.Fragment key={index}>
+              <span
+                className="about-word inline-block"
+                style={{ opacity: reducedMotion ? 1 : 0.15 }}
+              >
+                {word}
               </span>
-              <h2 className="text-4xl md:text-5xl lg:text-5xl font-normal text-gray-900 mb-6 leading-tight">
-                Why Choose 88 Exotic Car Rentals?
-              </h2>
-              <p className="text-gray-600 text-lg leading-relaxed max-w-2xl">
-                Based in Boston with locations in Miami, Atlanta, and Los Angeles, 88 Exotic Car Rentals delivers a world-class fleet of supercars and luxury vehicles. From Lamborghinis to Rolls-Royces, every rental is backed by white-glove service, transparent pricing, and an unforgettable experience.
-              </p>
-            </div>
-
-            {/* Checklist Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-8">
-              {checkItems.map((item, index) => (
-                <div key={index} className="flex items-center space-x-3">
-                  <CheckCircle2 className="w-5 h-5 text-gray-400 flex-shrink-0" />
-                  <span className="text-gray-700 font-medium text-sm md:text-base">{item}</span>
-                </div>
-              ))}
-            </div>
-
-            {/* Stats Grid */}
-            <div className="grid grid-cols-2 gap-x-8 gap-y-12 pt-8">
-              {stats.map((stat, index) => (
-                <div key={index} className="flex flex-col space-y-2">
-                  <span className="text-4xl md:text-5xl font-normal text-gray-900">
-                    {stat.value}
-                  </span>
-                  <span className="text-[10px] md:text-xs font-bold text-gray-400 tracking-widest uppercase">
-                    {stat.label}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Right Column: Video */}
-          <div className="relative h-[500px] md:h-[600px] lg:h-full min-h-[500px]">
-            <div className="absolute inset-0">
-              <img
-                src="https://lirp.cdn-website.com/eccf826b/dms3rep/multi/opt/mclaren-wallpaper-4c6670b5-1920w.png"
-                alt="88 Exotic Car Rentals"
-                className="w-full h-full object-cover shadow-2xl"
-              />
-            </div>
-          </div>
-        </div>
+              {index < WORDS.length - 1 ? " " : ""}
+            </React.Fragment>
+          ))}
+        </p>
       </div>
     </section>
   );

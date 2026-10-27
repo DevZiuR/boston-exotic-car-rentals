@@ -79,7 +79,7 @@ const Locations = () => {
                         <RevealOnScroll animation="fade-in" className="order-2 lg:order-1">
                             <div className="relative rounded-sm overflow-hidden border border-gray-200 shadow-lg h-[450px] md:h-[550px]">
                                 <iframe
-                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d26245053.499814555!2d-92.77681005000001!3d36.5844375!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x87e5c995ed9c291d%3A0x56d5780fd81da9e2!2s88%20Exotic%20Car%20Rentals%20Boston!5e0!3m2!1sen!2sus!4v1773027862345!5m2!1sen!2sus"
+                                    src="https://maps.google.com/maps?q=Brooklyn%2C%20New%20York&t=&z=10&ie=UTF8&iwloc=&output=embed"
                                     width="100%"
                                     height="100%"
                                     style={{ border: 0, filter: "grayscale(0.2) contrast(1.1)" }}
@@ -94,7 +94,7 @@ const Locations = () => {
                                 <div className="absolute top-6 left-6 bg-white px-4 py-2 shadow-xl border border-gray-100">
                                     <span className="text-[10px] font-bold uppercase tracking-widest text-gray-900 flex items-center gap-2">
                                         <span className="w-2 h-2 rounded-full bg-black animate-pulse"></span>
-                                        Our Locations
+                                        Service Areas
                                     </span>
                                 </div>
                             </div>
@@ -104,15 +104,15 @@ const Locations = () => {
                         <div className="flex flex-col space-y-8 order-1 lg:order-2">
                             <div className="space-y-6">
                                 <span className="inline-block px-3 py-1 border border-gray-300 text-[10px] md:text-xs font-bold tracking-widest uppercase text-gray-900">
-                                    LOCATIONS
+                                    SERVICE AREAS
                                 </span>
                                 <h2 className="text-4xl md:text-5xl lg:text-5xl font-normal text-gray-900 leading-tight tracking-tight">
-                                    Find Us In <br />
-                                    Premier Destinations
+                                    Serving the Tri-State <br />
+                                    &amp; Beyond
                                 </h2>
                                 <p className="text-gray-600 text-lg leading-relaxed max-w-lg">
-                                    88 Exotic Car Rentals is available in four major cities, bringing world-class exotic vehicles right to your door. Whether you're in
-                                    <span className="font-bold"> Boston, Miami, Atlanta, or Los Angeles</span>— we've got you covered.
+                                    Smoove Luxury Transportation brings premium chauffeurs and luxury vehicles right to your door. Whether you're in
+                                    <span className="font-bold"> New York, New Jersey, Pennsylvania, Connecticut, Atlanta, or Miami</span> — or anywhere across all 50 states + countries — we've got you covered.
                                 </p>
                             </div>
 
@@ -122,8 +122,8 @@ const Locations = () => {
                                         <ChevronRight className="w-5 h-5" />
                                     </div>
                                     <div>
-                                        <h4 className="font-bold text-gray-900 mb-1">Main Location</h4>
-                                        <p className="text-gray-600">Boston, MA 02116</p>
+                                        <h4 className="font-bold text-gray-900 mb-1">Headquarters</h4>
+                                        <p className="text-gray-600">Brooklyn, NY</p>
                                     </div>
                                 </div>
                                 <div className="flex items-start space-x-4 p-4 bg-gray-50 border border-gray-100">
@@ -131,8 +131,8 @@ const Locations = () => {
                                         <ChevronRight className="w-5 h-5" />
                                     </div>
                                     <div>
-                                        <h4 className="font-bold text-gray-900 mb-1">Additional Cities</h4>
-                                        <p className="text-gray-600">Miami, FL &nbsp;•&nbsp; Atlanta, GA &nbsp;•&nbsp; Los Angeles, CA</p>
+                                        <h4 className="font-bold text-gray-900 mb-1">Additional Areas</h4>
+                                        <p className="text-gray-600">NY &nbsp;•&nbsp; NJ &nbsp;•&nbsp; PA &nbsp;•&nbsp; CT &nbsp;•&nbsp; Atlanta, GA &nbsp;•&nbsp; Miami, FL &nbsp;•&nbsp; All 50 States</p>
                                     </div>
                                 </div>
                             </div>

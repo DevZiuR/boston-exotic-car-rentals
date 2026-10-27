@@ -1,49 +1,50 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { Button } from "./ui/button";
 import { useNavigate, useLocation } from "react-router-dom";
+
+export const BOOKING_URL = "https://smooveluxurybooking.as.me/schedule/b24e2156";
 
 const cities = [
   {
     label: "All Vehicles",
     value: "all",
     image: "https://lirp.cdn-website.com/eccf826b/dms3rep/multi/opt/DSC07218-1000h.jpg",
-    count: "8 vehicles",
+    count: "Our full fleet",
   },
   {
-    label: "Boston",
-    value: "Boston",
+    label: "New York",
+    value: "New York",
     image: "https://www.bu.edu/admissions/files/2018/07/17-2005-AERIALS-101-cropped-e1535295662889-1200x675.jpg",
-    count: "1 vehicle",
+    count: "NYC & Tri-State",
   },
   {
     label: "Miami",
     value: "Miami",
     image: "https://www.jetbluevacations.com/cdn-cgi/image/f=auto,width=1920,height=1080/https://www.jetbluevacations.com/media/MIA_downtown_miami_38d2ff7562/MIA_downtown_miami_38d2ff7562.jpg",
-    count: "1 vehicle",
+    count: "South Florida",
   },
   {
     label: "Atlanta",
     value: "Atlanta",
     image: "https://media.cntraveler.com/photos/68d58043d2572d5127695fe6/16:9/w_2992,h_1683,c_limit/092525-Unwritten-Rules-Atlanta-GettyImages-1365974686webres-final.jpg",
-    count: "3 vehicles",
+    count: "Metro Atlanta",
   },
   {
-    label: "Los Angeles",
-    value: "Los Angeles",
+    label: "Nationwide",
+    value: "Nationwide",
     image: "https://www.civitatis.com/blog/wp-content/uploads/2025/01/los-angeles-scaled.jpg",
-    count: "3 vehicles",
+    count: "All 50 states + countries",
   },
 ];
 
 const navLinks = [
-  { name: "Rental Vehicles", path: "/fleet", hasDropdown: true },
-  { name: "Chauffeur Services", id: "chauffeur" },
-  { name: "PhotoShoot Rentals", id: "photoshoot" },
-  { name: "Requirements", id: "services" },
+  /// { name: "Reserve Fleet", path: "/fleet", hasDropdown: true },
+  { name: "Our Fleet", id: "fleet" },
+  { name: "PhotoShoots", id: "photoshoots" },
+  { name: "Policies", id: "policies" },
   { name: "About", id: "about" },
   { name: "FAQs", id: "faq" },
-  { name: "Shop", id: "shop" },
   { name: "Contact", id: "contact" },
 ];
 
@@ -86,7 +87,17 @@ const Header = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const handleNavClick = (link: { name: string; id?: string; path?: string }) => {
+  const scrollToSection = useCallback((id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      const offset = 80;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - offset;
+      window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+    }
+  }, []);
+
+  const handleNavClick = useCallback((link: { name: string; id?: string; path?: string }) => {
     setIsOpen(false);
     setFleetDropdownOpen(false);
     if (link.path) {
@@ -101,61 +112,49 @@ const Header = () => {
         scrollToSection(link.id);
       }
     }
-  };
+  }, [navigate, location.pathname, scrollToSection]);
 
-  const handleCityClick = (city: string) => {
+  const handleCityClick = useCallback((city: string) => {
     setFleetDropdownOpen(false);
     if (city === "all") {
       navigate("/fleet");
     } else {
       navigate(`/fleet?city=${encodeURIComponent(city)}`);
     }
-  };
-
-  const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      const offset = 80;
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - offset;
-      window.scrollTo({ top: offsetPosition, behavior: "smooth" });
-    }
-  };
+  }, [navigate]);
 
   const isHomePage = location.pathname === "/";
 
   return (
-    <header
-      className={`fixed w-full z-50 transition-all duration-300 ${!isHomePage || scrolled
-        ? "bg-black backdrop-blur-md lg:pb-4"
-        : "bg-black lg:bg-transparent"
-        }`}
-    >
-      {/* Promo Top Bar */}
+    <header className="fixed w-full z-50 bg-black border-b border-white/10 transition-all duration-300">
+      {/* Promo Top Bar 
+      {/* 
       <div className="w-full bg-black py-2 text-center border-b border-white/10">
         <span className="text-white text-[10px] md:text-xs font-bold tracking-widest uppercase">
-          🔥 LIMITED TIME: Book 3 Days &amp; Your 4th Day Is FREE! 🔥
+          ✨ Executive Luxury Transportation · Now Serving All 50 States + Countries 🌎
         </span>
       </div>
+      */}
 
-      <div className={`w-full px-4 sm:px-6 lg:px-8 transition-all duration-300 ${scrolled ? "mt-2 sm:mt-4" : "mt-4 sm:mt-6"}`}>
-        <div className="max-w-[1400px] mx-auto border border-white/20 bg-black lg:bg-white/5 backdrop-blur-sm rounded-none md:rounded-sm flex items-stretch min-h-[70px]">
+      {/* Below Top Bar Navbar */}
+      <div className="w-full bg-black px-4 sm:px-6 lg:px-6 py-1">
+        <div className="max-w-[1400px] mx-auto border border-white/20 bg-black rounded-none md:rounded-sm flex items-stretch min-h-[70px]">
 
           {/* Logo Section */}
           <div
-            className="flex items-center px-6 border-r border-white/20 cursor-pointer"
+            className="flex items-center px-3 sm:px-6 border-white/20 cursor-pointer"
             onClick={() => handleNavClick({ name: "Home", id: "home" })}
           >
             <img
-              src="https://lirp.cdn-website.com/eccf826b/dms3rep/multi/opt/noBgColor--282-29-e9c2541f-1920w.png"
-              alt="88 Exotic Car Rentals Boston"
-              className="h-12 w-auto object-contain transition-all duration-300"
+              src="/images/logo.png"
+              alt="Smoove Luxury Transportation"
+              className="h-14 sm:h-18 md:h-20 lg:h-24 w-auto object-contain transition-all duration-300"
             />
           </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex flex-1 justify-end items-center px-8 border-r border-white/20">
-            <nav className="flex items-center gap-6">
+          <div className="hidden lg:flex flex-1 justify-center items-center px-6">
+            <nav className="flex items-center gap-5">
               {navLinks.map((link) =>
                 link.hasDropdown ? (
                   /* Fleet dropdown trigger */
@@ -186,7 +185,7 @@ const Header = () => {
                     >
                       <div className="bg-black border-t border-white/10 shadow-2xl px-6 py-6">
                         <div className="max-w-[1400px] mx-auto">
-                          <p className="text-[10px] uppercase tracking-[0.25em] text-gray-500 font-bold mb-4">Browse by City</p>
+                          <p className="text-[10px] uppercase tracking-[0.25em] text-gray-500 font-bold mb-4">Browse by Area</p>
                           <div className="grid grid-cols-5 gap-3">
                             {cities.map((city) => (
                               <button
@@ -232,22 +231,23 @@ const Header = () => {
           </div>
 
           {/* CTA Button */}
-          <div className="hidden lg:block">
+          <div className="hidden lg:flex items-center px-6">
             <button
-              onClick={() => handleNavClick({ name: "Contact", id: "contact" })}
-              className="h-full px-10 bg-black hover:bg-gray-900 border-l border-white/20 text-white font-bold text-sm uppercase tracking-widest transition-colors flex items-center justify-center whitespace-nowrap"
+              onClick={() => window.open(BOOKING_URL, "_blank", "noopener,noreferrer")}
+              className="cta-btn py-3 px-10 bg-[#b3122e] hover:bg-[#8e0e24] text-white uppercase transition-colors flex items-center justify-center whitespace-nowrap rounded-lg shadow-md"
             >
-              Reserve Now
+              Book Now
             </button>
           </div>
 
           {/* Mobile Menu Button */}
-          <div className="lg:hidden flex-1 flex justify-end items-center px-4">
+          <div className="lg:hidden flex-1 flex justify-end items-center px-2 sm:px-4">
             <Button
               variant="ghost"
               size="icon"
               onClick={() => setIsOpen(!isOpen)}
-              className="text-white hover:bg-white/10"
+              className="text-white hover:bg-white/10 w-12 h-12 min-h-[48px] min-w-[48px] flex items-center justify-center p-0"
+              aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
             >
               {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </Button>
@@ -260,17 +260,18 @@ const Header = () => {
       {isOpen && (
         <div className="fixed inset-0 bg-black z-[999] lg:hidden flex flex-col h-[100dvh] w-screen" style={{ top: 0 }}>
           {/* Close bar at top — matches header height */}
-          <div className="bg-black border-b border-white/10 flex items-center justify-between px-4 py-4 min-h-[90px] flex-shrink-0">
+          <div className="bg-black border-b border-white/10 flex items-center justify-between px-4 py-4 min-h-[70px] sm:min-h-[90px] flex-shrink-0">
             <img
-              src="https://lirp.cdn-website.com/eccf826b/dms3rep/multi/opt/noBgColor--282-29-e9c2541f-1920w.png"
-              alt="88 Exotic"
-              className="h-10 w-auto object-contain"
+              src="/images/logo.png"
+              alt="Smoove Luxury Transportation"
+              className="h-12 sm:h-14 w-auto object-contain"
             />
             <Button
               variant="ghost"
               size="icon"
               onClick={() => setIsOpen(false)}
-              className="text-white hover:bg-white/10"
+              className="text-white hover:bg-white/10 w-12 h-12 min-h-[48px] min-w-[48px] flex items-center justify-center p-0"
+              aria-label="Close navigation menu"
             >
               <X className="h-6 w-6" />
             </Button>
@@ -283,7 +284,7 @@ const Header = () => {
                 <div key={link.name}>
                   <button
                     onClick={() => handleNavClick(link)}
-                    className="block w-full text-left text-xl font-bold text-white border-b border-white/10 py-5 uppercase tracking-wide hover:text-gray-300 transition-colors"
+                    className="flex items-center w-full text-left text-xl font-bold text-white border-b border-white/10 min-h-[48px] py-4 uppercase tracking-wide hover:text-gray-300 transition-colors"
                   >
                     {link.name}
                   </button>
@@ -294,7 +295,7 @@ const Header = () => {
                         <button
                           key={city.value}
                           onClick={() => { setIsOpen(false); handleCityClick(city.value); }}
-                          className="flex items-center justify-between w-full text-sm text-gray-400 hover:text-white transition-colors py-2"
+                          className="flex items-center justify-between w-full min-h-[44px] text-sm text-gray-400 hover:text-white transition-colors py-2.5"
                         >
                           <span className="uppercase tracking-wider font-semibold">{city.label}</span>
                           <span className="text-gray-600 text-xs">{city.count}</span>
@@ -308,10 +309,10 @@ const Header = () => {
 
             <div className="mt-8">
               <Button
-                className="w-full bg-white text-black py-6 text-base font-bold uppercase tracking-wider rounded-none hover:bg-gray-100"
-                onClick={() => handleNavClick({ name: "Contact", id: "contact" })}
+                className="cta-btn w-full bg-[#b3122e] text-white min-h-[48px] py-4 uppercase rounded-none hover:bg-[#8e0e24]"
+                onClick={() => window.open(BOOKING_URL, "_blank", "noopener,noreferrer")}
               >
-                Reserve Now
+                Book Now
               </Button>
             </div>
           </div>

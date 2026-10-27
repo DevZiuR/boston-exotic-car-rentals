@@ -1,0 +1,326 @@
+{
+  "appointmentTypes": [
+    {
+      "id": 85385780,
+      "name": "NYC, NJ, PA, CT Escalade Galaxy Roof  2025",
+      "price": 120,
+      "duration": 240,
+      "description": "4 HOURS MINIMUM $120 PER HOUR\nThis a 2025 escalade starlights with galaxy starlight package its has 5 seats with sports package. Tristate Area ONLY IT is \n\n(4 hours minimum) PLEASE SELECT YOUR DESIRED ADD ONS ACCORDINGLY)",
+      "image": "https://cdn-s.acuityscheduling.com/appointmentType-85385780.jpg?1773764007"
+    },
+    {
+      "id": 85597475,
+      "name": "NYC,NJ,CT,PA Regular Escalade With no Starlights",
+      "price": 95,
+      "duration": 180,
+      "description": "Tri-state IT IS $95 A HOUR Ultimate Comfort: Spacious 3-row seating with premium leather, heated and ventilated seats, and whisper-quiet cabin, wireless Apple CarPlay & Android Auto, and Super Cruise hands-free driving (on select routes).\nLuxury Sound: Feel every beat with a 19-speaker (or available 36-speaker) AKG Studio Reference sound system.Commanding Presence: Signature Cadillac design, LED lighting, and smooth V8 power make every entrance unforgettable.",
+      "image": "https://cdn-s.acuityscheduling.com/appointmentType-85597475.jpeg?1773763776"
+    },
+    {
+      "id": 85693468,
+      "name": "NYC,PA,NJ,CT Regular Suburban",
+      "price": 85,
+      "duration": 300,
+      "description": "4 HOURS Minimum\nOur Chevrolet Suburban SUV offers luxury comfort, extra legroom, and space for up to 6 passengers with large luggage capacity. Perfect for airport transfers, corporate travel, family trips, and special events. Enjoy a smooth ride, premium interior, and professional service every time",
+      "image": "https://cdn-s.acuityscheduling.com/appointmentType-85693468.jpeg?1767562935"
+    },
+    {
+      "id": 85696999,
+      "name": "NYC,PA,NJ,CT Suburban Starlights",
+      "price": 90,
+      "duration": 240,
+      "description": "ITS $90 an hour\n3–4 HOURS minimum\nLuxury Suburban SUV featuring custom starlight headliner for a premium, relaxing atmosphere. Seats up to 6 passengers with spacious luggage room.\nNo smoking unless smoking fee is paid.\nNo jumping or disrespectful behavior toward the driver.",
+      "image": "https://cdn-s.acuityscheduling.com/appointmentType-85696999.jpg?1773764808"
+    },
+    {
+      "id": 85724156,
+      "name": "NYC, NJ, PA, CT Blonde Sprinter van",
+      "price": 250,
+      "duration": 240,
+      "description": "IT IS  PER HOUR \n4 HOURS minimum\nOur Executive Sprinter Vans provide first-class comfort for groups of 10-13 passengers. Premium seating, high interior space, and a smooth ride for any occasion.\nPlease note: Sprinter Vans must be scheduled 3–4 weeks ahead due to high demand.\nNo smoking without a smoking fee.\nProfessional, respectful conduct is required inside the vehicle.",
+      "image": "https://cdn-s.acuityscheduling.com/appointmentType-85724156.jpeg?1773764991"
+    },
+    {
+      "id": 85724440,
+      "name": "NYC, NJ, PA, CT Black Sprinter Van",
+      "price": 200,
+      "duration": 240,
+      "description": "4 HOURS Minimum\nTravel in premium comfort with our Black 12-Passenger Mercedes Sprinter. High-end interior, smooth ride, and perfect for VIP group travel, corporate events, and special occasions.\nBooking required 3–4 weeks ahead.\nNo smoking without paying the $400 smoking fee.\nTolls are billed separately.",
+      "image": ""
+    },
+    {
+      "id": 87502055,
+      "name": "lifestyle Photoshoots for luxury cars",
+      "price": 450,
+      "duration": 60,
+      "description": "BRING YOUR OWN PHOTOGRAPHER.!!\nPhoto shoots are available in all states we will need Photoshoot address, Time, Date.\nProvide location. It is per hour",
+      "image": ""
+    },
+    {
+      "id": 87502617,
+      "name": "Maybach Sedan S580",
+      "price": 450,
+      "duration": 240,
+      "description": "This a Maybach sedan comes with a VIP experience / Chauffeur We also have many different types Maybach's feel free to ask us anything. This Sedan is 3 hours minimum. It Is PER HOUR !",
+      "image": ""
+    },
+    {
+      "id": 87503109,
+      "name": "Maybach Truck 2024 GLS600",
+      "price": 500,
+      "duration": 180,
+      "description": "Maybach comes with a VIP service a special chauffeur that requires 3 hours minimum. It has 3 passengers. This Service is 3 Hours Minimum.",
+      "image": ""
+    },
+    {
+      "id": 87503368,
+      "name": "NYC, NJ, PA, CT Rolls Royce Sedan Ghost 2024",
+      "price": 500,
+      "duration": 240,
+      "description": "Rolls-Royce Ghost \n\nThis sedan Is 3 hours minimum & Also it is per hour.\nExperience ultimate luxury and comfort in the Rolls-Royce Ghost. With its whisper-quiet ride, handcrafted interior, and effortless elegance, the Ghost is perfect for special occasions, executive travel, and making a lasting impression also it has 3 passengers. This require 4 hours minimum.",
+      "image": ""
+    },
+    {
+      "id": 87504591,
+      "name": "NYC, NJ, PA, CT Lamborghini Urus",
+      "price": 450,
+      "duration": 240,
+      "description": "The Lamborghini Urus combines supercar performance with SUV power and style. Bold, aggressive, and luxurious, this high-performance truck delivers an unforgettable ride perfect for arrivals that demand attention. It requires 4 Hours minimum comes VIP chauffeur Service.",
+      "image": ""
+    },
+    {
+      "id": 87505396,
+      "name": "lifestyle photoshoot Black Truck",
+      "price": 120,
+      "duration": 60,
+      "description": "Enjoy a 1-hour lifestyle photoshoot featuring a sleek black luxury truck. Perfect for personal branding, fashion, social media content, or promotional visuals. PLEASE BRING YOUR OWN PHOTOGRAPHER",
+      "image": "https://cdn-s.acuityscheduling.com/appointmentType-87505396.jpeg?1773764439"
+    },
+    {
+      "id": 88932012,
+      "name": "Escalade straights 2024",
+      "price": 110,
+      "duration": 240,
+      "description": "escalade starlights fits 6 people, tolls are separate and smoking fee is $100",
+      "image": "https://cdn-s.acuityscheduling.com/appointmentType-88932012.jpeg?1773764534"
+    },
+    {
+      "id": 90835068,
+      "name": "Hourly Rolls Royce Cullian Hourly 2025",
+      "price": 450,
+      "duration": 60,
+      "description": "THIS IS $400 PER HOUR 4 HOURS MINIMUM This a 2025 cullian with black interior.",
+      "image": "https://cdn-s.acuityscheduling.com/appointmentType-90835068.jpeg?1776898584"
+    },
+    {
+      "id": 91026848,
+      "name": "ATL PHOTOSHOOT  + Black truck",
+      "price": 500,
+      "duration": 180,
+      "description": "Black truck comes with photographer it’s a package.\n\n3 Hours with A 2024 Escalade also it comes with Photographer that take Pictures for you .",
+      "image": ""
+    },
+    {
+      "id": 91127668,
+      "name": "ATL Sprinter 2019",
+      "price": 145,
+      "duration": 240,
+      "description": "It is a 7 passengers for a sprinter and It is $135 Per hour ! 4 hours minimum.",
+      "image": ""
+    },
+    {
+      "id": 91127812,
+      "name": "ATL SPRINTER 2025",
+      "price": 180,
+      "duration": 240,
+      "description": "This Sprinter 13 passengers and It is $180 Per Hour. It is 4 Hours Minimum.",
+      "image": ""
+    },
+    {
+      "id": 91128009,
+      "name": "ATL Gwagon 2023",
+      "price": 145,
+      "duration": 240,
+      "description": "2023 Gwagon It is 4 passengers & It is $145 Per hour . 4 hours minimum",
+      "image": ""
+    },
+    {
+      "id": 91128479,
+      "name": "ATL 2024 Escalade",
+      "price": 100,
+      "duration": 240,
+      "description": "6 Passengers  It is 2024 Escalade . It is $100 an hour It comes private driver. It is  4 hours minimum.",
+      "image": ""
+    },
+    {
+      "id": 91128859,
+      "name": "ATL Sprinters 2024 12 passengers",
+      "price": 250,
+      "duration": 240,
+      "description": "This sprinter has 12 passengers. It is 4 Hours Minimum.",
+      "image": "https://cdn-s.acuityscheduling.com/appointmentType-thumb-91128859.jpg?1774546702"
+    },
+    {
+      "id": 91129140,
+      "name": "Miami Luxury Black truck Birthday package",
+      "price": 500,
+      "duration": 60,
+      "description": "-Pick up and Drop-off\n-Roses\n-Balloons(Bday balloon's and other decorations)\n-Liquor (off any choice)",
+      "image": ""
+    },
+    {
+      "id": 91129551,
+      "name": "Miami Regular Birthday Package",
+      "price": 400,
+      "duration": 60,
+      "description": "-Pickup & Drop off\n-Roses\n-Liquor(Don Julio Rep)\n-Other minor decorations\n-Other minor Decorations",
+      "image": ""
+    },
+    {
+      "id": 91129640,
+      "name": "Miami Basic Birthday Package",
+      "price": 350,
+      "duration": 60,
+      "description": "-Pickup & Drop-off\n-Roses",
+      "image": ""
+    },
+    {
+      "id": 91130118,
+      "name": "Escalade Miami Luxury 2025",
+      "price": 120,
+      "duration": 240,
+      "description": "It is 4 Hours Minimum It is 5 passenger's. It is $120 an hour.",
+      "image": "https://cdn-s.acuityscheduling.com/appointmentType-91130118.jpg?1774548198"
+    },
+    {
+      "id": 91487128,
+      "name": "Black Sprinter 18 passengers",
+      "price": 250,
+      "duration": 240,
+      "description": "This is a 18 passengers sprinter",
+      "image": "https://cdn-s.acuityscheduling.com/appointmentType-thumb-91487128.jpeg?1775769482"
+    },
+    {
+      "id": 92275585,
+      "name": "ROLL ROYCE CULLINAN  2024",
+      "price": 550,
+      "duration": 60,
+      "description": "PLEASE BRING YOUR OWN PHOTOGRAPHER It is A 1 hour Photoshoot",
+      "image": "https://cdn-s.acuityscheduling.com/appointmentType-92275585.jpeg?1776896391"
+    },
+    {
+      "id": 93554789,
+      "name": "MAYBACH GALAXY PHOTOSHOOT",
+      "price": 400,
+      "duration": 60,
+      "description": "It is a 1 OF 1 Maybach Galaxy THIS IS FOR 1 hour photoshoot Please be Aware to book in advance",
+      "image": "https://cdn-s.acuityscheduling.com/appointmentType-thumb-93554789.jpeg?1779551390"
+    },
+    {
+      "id": 93554884,
+      "name": "HOURLY MAYBACH GALAXY",
+      "price": 450,
+      "duration": 240,
+      "description": "This Maybach Galaxy is 4-5 Hours minimum please keep in mind it is only 2 passengers.",
+      "image": "https://cdn-s.acuityscheduling.com/appointmentType-thumb-93554884.jpeg?1779551669"
+    },
+    {
+      "id": 93560086,
+      "name": "HOURLY ALL BLACK MAYBACH TRUCK",
+      "price": 450,
+      "duration": 240,
+      "description": "This is all Black Maybach truck  it’s per hour it’s Required to book for 4-5 hours",
+      "image": "https://cdn-s.acuityscheduling.com/appointmentType-thumb-93560086.jpeg?1779560209"
+    },
+    {
+      "id": 93563095,
+      "name": "HOURLY ALL WHITE Maybach 2026",
+      "price": 400,
+      "duration": 240,
+      "description": "This maybach is all white beautiful inside and out and it Is per hour. It’s Required to be booked for 4-6 hours or more",
+      "image": ""
+    },
+    {
+      "id": 93649327,
+      "name": "NYC PHOTOSHOOT SLIVER MAYBACH TRUCK 2025",
+      "price": 400,
+      "duration": 60,
+      "description": "It is 1 hour photoshoot  for Sliver Maybach Truck.",
+      "image": "https://cdn-s.acuityscheduling.com/appointmentType-93649327.jpeg?1779754975"
+    },
+    {
+      "id": 95805184,
+      "name": "NYC, NJ , PA, CT 1 Hour Photoshoot White Maybach photoshoot",
+      "price": 485,
+      "duration": 60,
+      "description": "IF the  client is out of state tolls are included.",
+      "image": ""
+    },
+    {
+      "id": 95805663,
+      "name": "NYC, NJ, CT , PA , 1 Hour Photoshoot 2 tone sliver Maybach Sedan",
+      "price": 350,
+      "duration": 60,
+      "description": "This is a 2 tone Maybach sliver sedan .",
+      "image": ""
+    },
+    {
+      "id": 95806002,
+      "name": "NYC, NJ, PA , CT , DE  HOURLY  all Black  MAYBACH SPRINTER",
+      "price": 400,
+      "duration": 60,
+      "description": "This  Maybach sprinter is $ 400 per hour & It can 8- 10 passengers",
+      "image": ""
+    },
+    {
+      "id": 95807143,
+      "name": "ONLY NYC Hourly ALL Black  Maybach Truck 2025",
+      "price": 300,
+      "duration": 60,
+      "description": "This a hourly all black Maybach truck is 4 hours minimum The PRICE LISTED is PER HOUR",
+      "image": ""
+    }
+  ],
+  "addons": [
+    {
+      "id": 6534614,
+      "name": "Black truck photoshoot",
+      "duration": 60,
+      "price": "120.00",
+      "active": true,
+      "private": false
+    },
+    {
+      "id": 6403479,
+      "name": "Bottle Package",
+      "duration": 0,
+      "price": "150.00",
+      "active": true,
+      "private": false
+    },
+    {
+      "id": 6534638,
+      "name": "Red Roses ",
+      "duration": 0,
+      "price": "200.00",
+      "active": true,
+      "private": false
+    },
+    {
+      "id": 6845340,
+      "name": "Smoking",
+      "duration": 60,
+      "price": "120.00",
+      "active": true,
+      "private": false
+    },
+    {
+      "id": 7149637,
+      "name": "TOLLS TO MANHATTAN AND LEAVING MANHATTAN",
+      "duration": 0,
+      "price": "80.00",
+      "active": true,
+      "private": false
+    }
+  ]
+}

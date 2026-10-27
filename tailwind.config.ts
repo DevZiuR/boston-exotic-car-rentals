@@ -14,12 +14,15 @@ export default {
     },
     extend: {
       fontFamily: {
-        'sans': ['"Instrument Serif"', 'serif'],
-        'onest': ['"Instrument Serif"', 'serif'],
-        'playfair': ['"Instrument Serif"', 'serif'],
-        'montserrat': ['"Instrument Serif"', 'serif'],
-        'inter': ['"Instrument Serif"', 'serif'],
-        'serif': ['"Instrument Serif"', 'serif'],
+        'sans': ['"Inter"', 'sans-serif'],
+        'inter': ['"Inter"', 'sans-serif'],
+        'heading': ['"Fjalla One"', 'sans-serif'],
+        'fjalla': ['"Fjalla One"', 'sans-serif'],
+        'cta': ['"Fjalla One"', 'sans-serif'],
+        'serif': ['"Fjalla One"', 'sans-serif'],
+        'playfair': ['"Fjalla One"', 'sans-serif'],
+        'montserrat': ['"Fjalla One"', 'sans-serif'],
+        'onest': ['"Inter"', 'sans-serif'],
       },
       colors: {
         border: "hsl(var(--border))",

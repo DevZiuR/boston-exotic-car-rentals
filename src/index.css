@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Fjalla+One&family=Inter:wght@300;400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -9,10 +11,10 @@ All colors MUST be HSL. Red and black premium automotive aesthetic.
 @layer base {
   :root {
     /* Core Brand Colors */
-    --background: 0 0% 100%;
-    /* White */
-    --foreground: 222 47% 11%;
-    /* Dark Slate */
+    --background: 240 18% 3.5%;
+    /* #07070a */
+    --foreground: 0 0% 98%;
+    /* Light */
 
     /* Brand Primary (Davis Blue) */
     --primary: 209 100% 36%;
@@ -87,34 +89,94 @@ All colors MUST be HSL. Red and black premium automotive aesthetic.
     @apply border-border;
   }
 
+  html,
   body {
-    @apply bg-background text-foreground font-sans font-normal;
-    font-family: "Instrument Serif", serif;
+    @apply bg-[#07070a] text-white;
+    font-family: "Inter", sans-serif;
+    overflow-x: hidden;
+    width: 100%;
+    max-width: 100vw;
   }
 
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-sans uppercase font-normal;
-    font-family: "Instrument Serif", serif;
+  @media (max-width: 767px) {
+    input, select, textarea {
+      font-size: 16px !important;
+    }
   }
 
-  /* Override specific component font classes implicitly by ensuring 'font-onest' maps to Instrument Serif in config
-     But explicit override here doesn't hurt */
+  h1, h2, h3, h4, h5, h6,
+  .font-heading,
+  .heading-font {
+    @apply uppercase;
+    font-family: "Fjalla One", sans-serif !important;
+  }
+
+  p,
+  .font-paragraph {
+    font-family: "Inter", sans-serif !important;
+  }
 
   button,
   .btn {
-    @apply font-sans;
-    font-family: "Instrument Serif", serif;
+    font-family: "Fjalla One", sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 14px;
+    letter-spacing: 1.5px;
   }
 
   small,
   .text-sm {
-    @apply font-sans font-medium;
-    font-family: "Instrument Serif", serif;
+    font-family: "Inter", sans-serif;
   }
 
   html {
     scroll-behavior: smooth;
   }
+}
+
+/* Call To Action Buttons Typography Specification:
+   font-family: "Fjalla One", sans-serif;
+   font-size: 14px;
+   font-weight: 700;
+   line-height: 14px;
+   letter-spacing: 1.5px;
+*/
+.cta-btn,
+.btn-cta,
+.cta-button,
+a.cta-btn,
+button.cta-btn {
+  font-family: "Fjalla One", sans-serif !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  line-height: 14px !important;
+  letter-spacing: 1.5px !important;
+}
+
+/* About Statement Editorial Styling */
+.about-statement {
+  font-family: Georgia, "Times New Roman", serif !important;
+  text-transform: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about-word {
+    opacity: 1 !important;
+  }
+}
+
+/* Scroll Velocity Ticker Styling */
+.text-outline-silver {
+  color: transparent !important;
+  -webkit-text-fill-color: transparent !important;
+  -webkit-text-stroke: 1px #c0c0c0 !important;
+}
+
+.crimson-star-solid {
+  color: #b3122e !important;
+  -webkit-text-fill-color: #b3122e !important;
+  -webkit-text-stroke: 0px transparent !important;
 }
 
 @layer components {
@@ -154,6 +216,120 @@ All colors MUST be HSL. Red and black premium automotive aesthetic.
   .parallax {
     transform: translateZ(0);
     will-change: transform;
+  }
+}
+
+/* ==========================================================================
+   Scroll-Reveal & Motion System
+   ========================================================================== */
+
+/* Fade-in scroll animations disabled: immediate rendering */
+.scroll-reveal {
+  opacity: 1 !important;
+  transform: none !important;
+  filter: none !important;
+  transition: none !important;
+}
+
+.scroll-reveal.is-revealed {
+  opacity: 1 !important;
+  transform: none !important;
+  filter: none !important;
+  transition: none !important;
+}
+
+/* 1px Section Divider (clean static gradient line) */
+.section-divider-bar {
+  height: 1px;
+  width: 100%;
+  background: linear-gradient(90deg, #DC143C 0%, #C0C0C0 100%);
+  transform-origin: left;
+  transform: scaleX(1);
+}
+
+.section-divider-bar.is-revealed {
+  transform: scaleX(1);
+}
+
+/* Hero Parallax */
+.hero-parallax-bg {
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+}
+
+/* Hero Starlight Shimmer */
+.hero-star-twinkle {
+  animation: heroStarTwinkle infinite ease-in-out;
+  box-shadow: 0 0 3px rgba(255, 255, 255, 0.8), 0 0 6px rgba(214, 110, 136, 0.4);
+}
+
+@keyframes heroStarTwinkle {
+  0%, 100% {
+    opacity: 0.12;
+    transform: scale(0.75);
+  }
+  50% {
+    opacity: 0.85;
+    transform: scale(1.25);
+  }
+}
+
+.hero-starlight-sheen {
+  background: linear-gradient(
+    115deg,
+    transparent 0%,
+    transparent 40%,
+    rgba(255, 255, 255, 0.035) 48%,
+    rgba(214, 110, 136, 0.07) 50%,
+    rgba(255, 255, 255, 0.035) 52%,
+    transparent 60%,
+    transparent 100%
+  );
+  background-size: 250% 250%;
+  animation: heroStarlightSweep 10s ease-in-out infinite;
+}
+
+@keyframes heroStarlightSweep {
+  0% {
+    background-position: -120% -120%;
+  }
+  50% {
+    background-position: 120% 120%;
+  }
+  100% {
+    background-position: 240% 240%;
+  }
+}
+
+/* Accessibility: Respect prefers-reduced-motion (disable all of it) */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .scroll-reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    transition: none !important;
+    will-change: auto !important;
+  }
+  .section-divider-bar {
+    transform: scaleX(1) !important;
+    transition: none !important;
+    will-change: auto !important;
+  }
+  .hero-parallax-bg {
+    transform: none !important;
+    will-change: auto !important;
+  }
+  .starlight-shimmer-layer,
+  .hero-star-twinkle,
+  .hero-starlight-sheen {
+    display: none !important;
+    animation: none !important;
   }
 }
 

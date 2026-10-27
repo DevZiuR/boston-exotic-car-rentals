@@ -1,4 +1,4 @@
-import { useRef, useLayoutEffect, useState } from 'react';
+import { useRef, useLayoutEffect, useState, useCallback } from 'react';
 import {
     motion,
     useScroll,
@@ -6,7 +6,8 @@ import {
     useTransform,
     useMotionValue,
     useVelocity,
-    useAnimationFrame
+    useAnimationFrame,
+    useReducedMotion
 } from 'framer-motion';
 
 function useElementWidth(ref: React.RefObject<HTMLElement>) {
@@ -56,119 +57,131 @@ interface VelocityTextProps {
     scrollerStyle?: React.CSSProperties;
 }
 
-export const ScrollVelocity = ({
+function VelocityText({
+    children,
+    baseVelocity = 25,
     scrollContainerRef,
-    texts = [],
-    velocity = 100,
     className = '',
-    damping = 50,
-    stiffness = 400,
-    numCopies = 6,
-    velocityMapping = { input: [0, 1000], output: [0, 5] },
-    parallaxClassName,
-    scrollerClassName,
+    damping = 60,
+    stiffness = 300,
+    numCopies = 8,
+    velocityMapping = { input: [0, 1000], output: [0, 1.5] },
+    parallaxClassName = '',
+    scrollerClassName = '',
     parallaxStyle,
-    scrollerStyle
-}: ScrollVelocityProps) => {
-    function VelocityText({
-        children,
-        baseVelocity = velocity,
-        scrollContainerRef,
-        className = '',
+    scrollerStyle,
+}: VelocityTextProps) {
+    const baseX = useMotionValue(0);
+    const scrollOptions = scrollContainerRef ? { container: scrollContainerRef } : {};
+    const { scrollY } = useScroll(scrollOptions);
+    const scrollVelocity = useVelocity(scrollY);
+    const smoothVelocity = useSpring(scrollVelocity, {
         damping,
         stiffness,
-        numCopies,
-        velocityMapping,
-        parallaxClassName,
-        scrollerClassName,
-        parallaxStyle,
-        scrollerStyle
-    }: VelocityTextProps) {
-        const baseX = useMotionValue(0);
-        const scrollOptions = scrollContainerRef ? { container: scrollContainerRef } : {};
-        const { scrollY } = useScroll(scrollOptions);
-        const scrollVelocity = useVelocity(scrollY);
-        const smoothVelocity = useSpring(scrollVelocity, {
-            damping: damping ?? 50,
-            stiffness: stiffness ?? 400
-        });
-        const velocityFactor = useTransform(
-            smoothVelocity,
-            velocityMapping?.input || [0, 1000],
-            velocityMapping?.output || [0, 5],
-            { clamp: false }
-        );
+    });
+    const velocityFactor = useTransform(
+        smoothVelocity,
+        velocityMapping?.input || [0, 1000],
+        velocityMapping?.output || [0, 1.5],
+        { clamp: false }
+    );
 
-        const copyRef = useRef<HTMLSpanElement>(null);
-        const copyWidth = useElementWidth(copyRef);
+    const shouldReduceMotion = useReducedMotion();
 
-        function wrap(min: number, max: number, v: number) {
-            const range = max - min;
-            const mod = (((v - min) % range) + range) % range;
-            return mod + min;
-        }
+    const copyRef = useRef<HTMLSpanElement>(null);
+    const copyWidth = useElementWidth(copyRef);
 
-        const x = useTransform(baseX, v => {
-            if (copyWidth === 0) return '0px';
-            return `${wrap(-copyWidth, 0, v)}px`;
-        });
+    const wrap = useCallback((min: number, max: number, v: number) => {
+        const range = max - min;
+        const mod = (((v - min) % range) + range) % range;
+        return mod + min;
+    }, []);
 
-        const directionFactor = useRef(1);
-        useAnimationFrame((t, delta) => {
-            let moveBy = directionFactor.current * baseVelocity * (delta / 1000);
+    const x = useTransform(baseX, (v) => {
+        if (copyWidth === 0) return '0px';
+        return `${wrap(-copyWidth, 0, v)}px`;
+    });
 
-            if (velocityFactor.get() < 0) {
-                directionFactor.current = -1;
-            } else if (velocityFactor.get() > 0) {
-                directionFactor.current = 1;
-            }
+    useAnimationFrame((_t, delta) => {
+        // Respect prefers-reduced-motion by completely pausing animation
+        if (shouldReduceMotion) return;
 
-            moveBy += directionFactor.current * moveBy * velocityFactor.get();
-            baseX.set(baseX.get() + moveBy);
-        });
+        // Base speed is slow; accelerates smoothly and slightly with scroll velocity
+        const vf = velocityFactor.get();
+        const speedBoost = 1 + Math.min(Math.abs(vf), 2);
+        const moveBy = baseVelocity * speedBoost * (delta / 1000);
+        baseX.set(baseX.get() + moveBy);
+    });
 
-        const spans = [];
-        for (let i = 0; i < (numCopies ?? 1); i++) {
-            spans.push(
-                <span className={`flex-shrink-0 ${className}`} key={i} ref={i === 0 ? copyRef : null}>
-                    {children}
-                </span>
-            );
-        }
-
-        return (
-            <div className={`${parallaxClassName} relative overflow-hidden`} style={parallaxStyle}>
-                <motion.div
-                    className={`${scrollerClassName} flex whitespace-nowrap text-center font-sans text-2xl font-medium tracking-[-0.02em] drop-shadow md:text-[3rem] md:leading-[3rem]`}
-                    style={{ x, ...scrollerStyle }}
-                >
-                    {spans}
-                </motion.div>
-            </div>
+    const spans = [];
+    for (let i = 0; i < (numCopies ?? 8); i++) {
+        spans.push(
+            <span className={`flex-shrink-0 ${className}`} key={i} ref={i === 0 ? copyRef : null}>
+                {children}
+            </span>
         );
     }
 
     return (
-        <section className="py-6 md:py-8 bg-black">
-            {texts.map((text, index) => (
-                <VelocityText
-                    key={index}
-                    className={className}
-                    baseVelocity={index % 2 !== 0 ? -velocity : velocity}
-                    scrollContainerRef={scrollContainerRef}
-                    damping={damping}
-                    stiffness={stiffness}
-                    numCopies={numCopies}
-                    velocityMapping={velocityMapping}
-                    parallaxClassName={parallaxClassName}
-                    scrollerClassName={scrollerClassName}
-                    parallaxStyle={parallaxStyle}
-                    scrollerStyle={scrollerStyle}
-                >
-                    {text}&nbsp;
-                </VelocityText>
-            ))}
-        </section>
+        <div className={`${parallaxClassName} relative overflow-hidden`} style={parallaxStyle}>
+            <motion.div
+                className={`${scrollerClassName} flex whitespace-nowrap text-center font-montserrat font-bold uppercase tracking-[0.05em] text-[clamp(1.5rem,3vw,2.5rem)] leading-[1.25]`}
+                style={{ x, ...scrollerStyle }}
+            >
+                {spans}
+            </motion.div>
+        </div>
+    );
+}
+
+export const ScrollVelocity = ({
+    scrollContainerRef,
+    texts = [],
+    velocity = 25,
+    className = '',
+    damping = 60,
+    stiffness = 300,
+    numCopies = 8,
+    velocityMapping = { input: [0, 1000], output: [0, 1.5] },
+    parallaxClassName,
+    scrollerClassName,
+    parallaxStyle,
+    scrollerStyle,
+}: ScrollVelocityProps) => {
+    return (
+        <div className="flex flex-col gap-3 md:gap-4 w-full">
+            {texts.map((text, index) => {
+                const isOutline = index === 1;
+                return (
+                    <VelocityText
+                        key={index}
+                        className={isOutline ? 'text-outline-silver' : 'text-white'}
+                        baseVelocity={index % 2 !== 0 ? velocity : -velocity}
+                        scrollContainerRef={scrollContainerRef}
+                        damping={damping}
+                        stiffness={stiffness}
+                        numCopies={numCopies}
+                        velocityMapping={velocityMapping}
+                        parallaxClassName={parallaxClassName}
+                        scrollerClassName={scrollerClassName}
+                        parallaxStyle={parallaxStyle}
+                        scrollerStyle={scrollerStyle}
+                    >
+                        <span className="inline-flex items-center px-6 md:px-10">
+                            <span className={isOutline ? 'text-outline-silver' : 'text-white'}>
+                                {text}
+                            </span>
+                            <span
+                                className="crimson-star-solid ml-6 md:ml-10 select-none text-[clamp(1.2rem,2.2vw,2rem)] leading-none"
+                                aria-hidden="true"
+                            >
+                                ★
+                            </span>
+                        </span>
+                    </VelocityText>
+                );
+            })}
+        </div>
     );
 };
 

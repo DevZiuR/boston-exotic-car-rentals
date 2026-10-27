@@ -20,14 +20,15 @@ interface Extra {
     icon: React.ReactNode;
 }
 
-const EXTRAS: Extra[] = [
-    { id: "chauffeur", label: "Professional Chauffeur", desc: "Licensed driver for your full rental period", price: 299, icon: <Car className="w-5 h-5" /> },
-    { id: "delivery",  label: "Vehicle Delivery",       desc: "We bring the car directly to your address",  price: 149, icon: <MapPin className="w-5 h-5" /> },
-    { id: "insurance", label: "Premium Insurance",       desc: "Full comprehensive coverage included",        price: 199, icon: <Shield className="w-5 h-5" /> },
-    { id: "detailing", label: "Post-Rental Detailing",   desc: "Skip the hassle — we clean it for you",     price: 99,  icon: <Zap className="w-5 h-5" /> },
+const getExtras = (carSmokingFee?: number): Extra[] => [
+    { id: "bottle",     label: "Bottle Package",            desc: "Premium bottle service on board",              price: 150, icon: <Zap className="w-5 h-5" /> },
+    { id: "roses",      label: "Red Roses",                 desc: "Fresh red roses for that special someone",     price: 200, icon: <Star className="w-5 h-5" /> },
+    { id: "photoshoot", label: "Lifestyle Photoshoot",      desc: "1-hour photoshoot add-on",                    price: 120, icon: <Car className="w-5 h-5" /> },
+    { id: "smoking",    label: "Smoking Fee",               desc: "Smoking permitted inside the vehicle",         price: carSmokingFee ?? 130, icon: <Clock className="w-5 h-5" /> },
+    { id: "tolls",      label: "Tolls Separate",            desc: "Bridge, tunnel and highway tolls add-on",      price: 80,  icon: <MapPin className="w-5 h-5" /> },
 ];
 
-const STEPS = ["Dates", "Extras", "Your Info", "Confirm"];
+const STEPS = ["Date & Time", "Add-Ons", "Your Info", "Confirm"];
 
 /* ─── Step progress bar ─── */
 const StepBar = ({ step }: { step: number }) => (
@@ -62,8 +63,9 @@ const CarDetail = () => {
 
     // Wizard state
     const [step, setStep] = useState(0);
-    const [pickupDate, setPickupDate] = useState("");
-    const [returnDate, setReturnDate] = useState("");
+    const [bookingDate, setBookingDate] = useState("");
+    const [startTime, setStartTime] = useState("");
+    const [hours, setHours] = useState(4);
     const [pickupLocation, setPickupLocation] = useState("");
     const [selectedExtras, setSelectedExtras] = useState<string[]>([]);
     const [contact, setContact] = useState({ name: "", phone: "", email: "" });
@@ -81,19 +83,16 @@ const CarDetail = () => {
         );
     }
 
+    // Extras based on vehicle
+    const extras = getExtras(car.smokingFee);
+
     // Related cars
-    const related = cars.filter(c => c.location === car.location && c.id !== car.id).slice(0, 3);
+    const related = cars.filter(c => c.id !== car.id).slice(0, 3);
 
     // Pricing
-    const getDays = () => {
-        if (!pickupDate || !returnDate) return 1;
-        const diff = Math.ceil((new Date(returnDate).getTime() - new Date(pickupDate).getTime()) / 86400000);
-        return Math.max(1, diff);
-    };
-    const days = getDays();
-    const basePrice = car.priceNum * days;
+    const basePrice = car.priceNum * hours;
     const extrasTotal = selectedExtras.reduce((sum, id) => {
-        const e = EXTRAS.find(x => x.id === id);
+        const e = extras.find(x => x.id === id);
         return sum + (e ? e.price : 0);
     }, 0);
     const grandTotal = basePrice + extrasTotal;
@@ -107,7 +106,7 @@ const CarDetail = () => {
     const handleSubmit = () => setSubmitted(true);
 
     const canProceed = () => {
-        if (step === 0) return pickupDate && returnDate && pickupLocation;
+        if (step === 0) return bookingDate && startTime && pickupLocation;
         if (step === 2) return contact.name && contact.phone && contact.email;
         return true;
     };
@@ -115,12 +114,18 @@ const CarDetail = () => {
     const formatDate = (d: string) => d ? new Date(d).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "—";
 
     return (
-        <div className="min-h-screen bg-white">
+        <div className="min-h-screen bg-[#07070a] text-white">
             <Header />
 
             {/* ── HERO ── */}
             <section className="relative h-[85vh] min-h-[600px] w-full bg-black overflow-hidden">
-                <img src={car.image} alt={car.title} className="absolute inset-0 w-full h-full object-cover opacity-75" />
+                {car.image ? (
+                    <img src={car.image} alt={car.title} className="absolute inset-0 w-full h-full object-cover opacity-75" />
+                ) : (
+                    <div className="absolute inset-0 bg-neutral-900 flex items-center justify-center text-neutral-600">
+                        <Car className="w-24 h-24 stroke-[1]" />
+                    </div>
+                )}
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
                 <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent" />
 
@@ -137,14 +142,14 @@ const CarDetail = () => {
                             <div>
                                 <div className="flex flex-wrap items-center gap-3 mb-4">
                                     <span className="inline-flex items-center gap-1.5 bg-white/10 border border-white/20 backdrop-blur-sm text-white text-[11px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-sm">
-                                        <MapPin className="w-3 h-3" /> {car.location}
+                                        <MapPin className="w-3 h-3 text-[#b3122e]" /> {car.location}
                                     </span>
                                     <span className="inline-flex items-center gap-1.5 bg-green-500/20 border border-green-500/40 text-green-400 text-[11px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-sm">
                                         ✓ Available Now
                                     </span>
                                     {car.hot && (
                                         <span className="inline-flex items-center gap-1.5 bg-orange-500/20 border border-orange-500/40 text-orange-400 text-[11px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-sm">
-                                            <Flame className="w-3 h-3" /> Hot Pick
+                                            <Flame className="w-3 h-3 text-[#b3122e]" /> Hot Pick
                                         </span>
                                     )}
                                 </div>
@@ -155,8 +160,8 @@ const CarDetail = () => {
                             </div>
                             <div className="text-right">
                                 <p className="text-gray-400 text-sm uppercase tracking-widest font-bold mb-1">Starting From</p>
-                                <p className="text-6xl md:text-7xl font-extrabold text-white leading-none">{car.price}</p>
-                                <p className="text-gray-400 text-base mt-1">per day <span className="text-white/40 text-sm">/ 24 hrs</span></p>
+                                <p className="text-6xl md:text-7xl font-extrabold text-white leading-none">{car.price || "Ask for Rate"}</p>
+                                <p className="text-gray-400 text-base mt-1">{car.price ? "per hour " : ""}<span className="text-white/40 text-sm">/ 3–4 hr min</span></p>
                             </div>
                         </div>
                     </div>
@@ -172,13 +177,13 @@ const CarDetail = () => {
                         {/* Trust Badges */}
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                             {[
-                                { icon: <Shield className="w-5 h-5" />, label: "Fully Insured" },
-                                { icon: <Clock className="w-5 h-5" />, label: "24/7 Support" },
-                                { icon: <Check className="w-5 h-5" />, label: "No Hidden Fees" },
-                                { icon: <Zap className="w-5 h-5" />, label: "Instant Booking" },
+                                { icon: <Shield className="w-5 h-5 text-[#b3122e]" />, label: "Fully Insured" },
+                                { icon: <Clock className="w-5 h-5 text-[#b3122e]" />, label: "24/7 Support" },
+                                { icon: <Check className="w-5 h-5 text-[#b3122e]" />, label: "No Hidden Fees" },
+                                { icon: <Zap className="w-5 h-5 text-[#b3122e]" />, label: "Instant Booking" },
                             ].map(b => (
-                                <div key={b.label} className="flex flex-col items-center justify-center gap-2 border border-gray-200 rounded-sm p-4 text-center text-sm font-semibold text-gray-700">
-                                    <span className="text-black">{b.icon}</span>
+                                <div key={b.label} className="flex flex-col items-center justify-center gap-2 border border-white/10 rounded-sm p-4 text-center text-sm font-semibold text-zinc-300 bg-white/5">
+                                    <span>{b.icon}</span>
                                     {b.label}
                                 </div>
                             ))}
@@ -186,18 +191,18 @@ const CarDetail = () => {
 
                         {/* Description */}
                         <div>
-                            <h2 className="text-2xl font-extrabold text-black mb-4 border-b pb-3">About This Vehicle</h2>
-                            <p className="text-gray-600 text-lg leading-relaxed">{car.description}</p>
+                            <h2 className="text-2xl font-extrabold text-white mb-4 border-b border-white/10 pb-3">About This Vehicle</h2>
+                            <p className="text-zinc-300 text-lg leading-relaxed">{car.description}</p>
                         </div>
 
                         {/* Specs */}
                         <div>
-                            <h2 className="text-2xl font-extrabold text-black mb-6 border-b pb-3">Specifications</h2>
+                            <h2 className="text-2xl font-extrabold text-white mb-6 border-b border-white/10 pb-3">Specifications</h2>
                             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                                 {car.specs.map(s => (
-                                    <div key={s.label} className="bg-gray-50 p-4 rounded-sm">
-                                        <p className="text-[11px] uppercase tracking-widest text-gray-400 font-bold mb-1">{s.label}</p>
-                                        <p className="text-lg font-extrabold text-black">{s.value}</p>
+                                    <div key={s.label} className="bg-white/5 border border-white/10 p-4 rounded-sm">
+                                        <p className="text-[11px] uppercase tracking-widest text-zinc-400 font-bold mb-1">{s.label}</p>
+                                        <p className="text-lg font-extrabold text-white">{s.value}</p>
                                     </div>
                                 ))}
                             </div>
@@ -205,11 +210,11 @@ const CarDetail = () => {
 
                         {/* Features */}
                         <div>
-                            <h2 className="text-2xl font-extrabold text-black mb-6 border-b pb-3">What's Included</h2>
+                            <h2 className="text-2xl font-extrabold text-white mb-6 border-b border-white/10 pb-3">What's Included</h2>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                 {car.features.map(f => (
-                                    <div key={f} className="flex items-center gap-3 text-gray-700">
-                                        <span className="w-5 h-5 rounded-full bg-black flex items-center justify-center flex-shrink-0">
+                                    <div key={f} className="flex items-center gap-3 text-zinc-300">
+                                        <span className="w-5 h-5 rounded-full bg-[#b3122e] flex items-center justify-center flex-shrink-0">
                                             <Check className="w-3 h-3 text-white" />
                                         </span>
                                         <span className="font-medium">{f}</span>
@@ -219,82 +224,93 @@ const CarDetail = () => {
                         </div>
 
                         {/* Reviews */}
-                        <div className="bg-black text-white p-8 rounded-sm">
+                        <div className="bg-[#141416] border border-white/10 text-white p-8 rounded-sm">
                             <div className="flex items-center gap-2 mb-3">
                                 {[...Array(5)].map((_, i) => (
-                                    <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                                    <Star key={i} className="w-4 h-4 fill-[#b3122e] text-[#b3122e]" />
                                 ))}
-                                <span className="text-white/60 text-sm ml-1">5.0 · 88+ Reviews</span>
+                                <span className="text-white/60 text-sm ml-1">5.0 · 2,500+ Rides</span>
                             </div>
                             <p className="text-xl italic text-gray-300 leading-relaxed">
                                 "Absolutely incredible experience. The car was immaculate, delivered on time, and the team was professional throughout. Would 100% rent again."
                             </p>
-                            <p className="mt-4 text-sm text-gray-500 font-bold uppercase tracking-wider">— Verified Renter, {car.location}</p>
+                            <p className="mt-4 text-sm text-gray-400 font-bold uppercase tracking-wider">— Verified Renter, {car.location}</p>
                         </div>
                     </div>
 
                     {/* RIGHT: Multi-step Wizard */}
                     <div className="lg:col-span-1">
                         <div className="sticky top-36">
-                            <div className="border-2 border-black rounded-sm overflow-hidden shadow-2xl">
+                            <div className="border border-white/10 rounded-sm overflow-hidden shadow-2xl bg-[#141416]">
 
                                 {/* Wizard Header */}
-                                <div className="bg-black text-white p-6">
-                                    <p className="text-xs uppercase tracking-widest text-gray-400 mb-1">Reserve Your</p>
-                                    <h3 className="text-xl font-extrabold leading-tight">{car.title}</h3>
+                                <div className="bg-black text-white p-6 border-b border-white/10">
+                                    <p className="text-xs uppercase tracking-widest text-zinc-400 mb-1 font-mono">Reserve Your</p>
+                                    <h3 className="text-xl font-extrabold leading-tight text-white">{car.title}</h3>
                                     <div className="flex items-baseline gap-2 mt-3">
-                                        <span className="text-4xl font-extrabold">{car.price}</span>
-                                        <span className="text-gray-400 text-sm">/ day</span>
+                                        <span className="text-4xl font-extrabold text-[#b3122e]">{car.price || "Ask for rate"}</span>
+                                        {car.price && <span className="text-zinc-400 text-sm">/ hour</span>}
                                     </div>
                                 </div>
 
                                 {!submitted ? (
-                                    <div className="bg-white p-6">
+                                    <div className="bg-[#141416] p-6 text-white">
                                         <StepBar step={step} />
 
                                         <div className={`transition-all duration-300 ${dir === "forward" ? "animate-[slideInRight_0.3s_ease]" : "animate-[slideInLeft_0.3s_ease]"}`}
                                              key={step}>
 
-                                            {/* ── STEP 0: Dates & Location ── */}
+                                            {/* ── STEP 0: Date, Time & Location ── */}
                                             {step === 0 && (
                                                 <div className="space-y-4">
-                                                    <div className="flex items-center gap-2 text-black font-extrabold text-sm uppercase tracking-wider mb-4">
-                                                        <CalendarDays className="w-4 h-4" /> Select Your Dates
+                                                    <div className="flex items-center gap-2 text-white font-extrabold text-sm uppercase tracking-wider mb-4">
+                                                        <CalendarDays className="w-4 h-4 text-[#b3122e]" /> Select Your Date & Duration
                                                     </div>
                                                     <div>
-                                                        <label className="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-1.5">Pickup Date</label>
+                                                        <label className="block text-xs font-bold uppercase tracking-wider text-zinc-400 mb-1.5 font-mono">Booking Date</label>
                                                         <input type="date"
-                                                            value={pickupDate}
+                                                            value={bookingDate}
                                                             min={new Date().toISOString().split("T")[0]}
-                                                            onChange={e => setPickupDate(e.target.value)}
-                                                            className="w-full border border-gray-200 p-3 text-sm font-medium focus:outline-none focus:border-black transition-colors rounded-sm"
+                                                            onChange={e => setBookingDate(e.target.value)}
+                                                            className="w-full border border-white/20 h-12 min-h-[48px] p-3 text-[16px] font-medium focus:outline-none focus:border-white transition-colors rounded-sm bg-[#1c1c20] text-white"
                                                         />
                                                     </div>
-                                                    <div>
-                                                        <label className="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-1.5">Return Date</label>
-                                                        <input type="date"
-                                                            value={returnDate}
-                                                            min={pickupDate || new Date().toISOString().split("T")[0]}
-                                                            onChange={e => setReturnDate(e.target.value)}
-                                                            className="w-full border border-gray-200 p-3 text-sm font-medium focus:outline-none focus:border-black transition-colors rounded-sm"
-                                                        />
+                                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                                        <div>
+                                                            <label className="block text-xs font-bold uppercase tracking-wider text-zinc-400 mb-1.5 font-mono">Start Time</label>
+                                                            <input type="time"
+                                                                value={startTime}
+                                                                onChange={e => setStartTime(e.target.value)}
+                                                                className="w-full border border-white/20 h-12 min-h-[48px] p-3 text-[16px] font-medium focus:outline-none focus:border-white transition-colors rounded-sm bg-[#1c1c20] text-white"
+                                                            />
+                                                        </div>
+                                                        <div>
+                                                            <label className="block text-xs font-bold uppercase tracking-wider text-zinc-400 mb-1.5 font-mono">Duration (hours)</label>
+                                                            <select value={hours} onChange={e => setHours(Number(e.target.value))}
+                                                                className="w-full border border-white/20 h-12 min-h-[48px] p-3 text-[16px] font-medium focus:outline-none focus:border-white transition-colors rounded-sm bg-[#1c1c20] text-white">
+                                                                {[3, 4, 5, 6, 8, 10, 12].map(h => (
+                                                                    <option key={h} value={h} className="bg-[#1c1c20] text-white">{h} hour{h > 1 ? "s" : ""}</option>
+                                                                ))}
+                                                            </select>
+                                                        </div>
                                                     </div>
                                                     <div>
-                                                        <label className="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-1.5">Pickup Location</label>
+                                                        <label className="block text-xs font-bold uppercase tracking-wider text-zinc-400 mb-1.5 font-mono">Pickup Area</label>
                                                         <select value={pickupLocation} onChange={e => setPickupLocation(e.target.value)}
-                                                            className="w-full border border-gray-200 p-3 text-sm font-medium focus:outline-none focus:border-black transition-colors rounded-sm bg-white">
-                                                            <option value="">Select city...</option>
-                                                            <option>Boston, MA</option>
-                                                            <option>Miami, FL</option>
-                                                            <option>Atlanta, GA</option>
-                                                            <option>Los Angeles, CA</option>
+                                                            className="w-full border border-white/20 h-12 min-h-[48px] p-3 text-[16px] font-medium focus:outline-none focus:border-white transition-colors rounded-sm bg-[#1c1c20] text-white">
+                                                            <option value="" className="bg-[#1c1c20] text-white">Select area...</option>
+                                                            <option className="bg-[#1c1c20] text-white">New York — NYC / New Jersey</option>
+                                                            <option className="bg-[#1c1c20] text-white">New York — Connecticut / Pennsylvania</option>
+                                                            <option className="bg-[#1c1c20] text-white">Atlanta, GA</option>
+                                                            <option className="bg-[#1c1c20] text-white">Miami, FL</option>
+                                                            <option className="bg-[#1c1c20] text-white">Nationwide (all 50 states)</option>
                                                         </select>
                                                     </div>
-                                                    {pickupDate && returnDate && (
-                                                        <div className="bg-gray-50 border border-gray-100 rounded-sm p-3 text-sm">
-                                                            <span className="text-gray-500">Duration: </span>
-                                                            <span className="font-extrabold text-black">{days} day{days > 1 ? "s" : ""}</span>
-                                                            <span className="text-gray-400 ml-2">· Base: <strong className="text-black">${basePrice.toLocaleString()}</strong></span>
+                                                    {bookingDate && (
+                                                        <div className="bg-white/5 border border-white/10 rounded-sm p-3 text-sm">
+                                                            <span className="text-zinc-400">Duration: </span>
+                                                            <span className="font-extrabold text-white">{hours} hour{hours > 1 ? "s" : ""}</span>
+                                                            <span className="text-zinc-500 ml-2">· Base: <strong className="text-[#b3122e]">${basePrice.toLocaleString()}</strong></span>
                                                         </div>
                                                     )}
                                                 </div>
@@ -303,34 +319,34 @@ const CarDetail = () => {
                                             {/* ── STEP 1: Extras ── */}
                                             {step === 1 && (
                                                 <div className="space-y-3">
-                                                    <div className="flex items-center gap-2 text-black font-extrabold text-sm uppercase tracking-wider mb-4">
-                                                        <Settings2 className="w-4 h-4" /> Customize Your Experience
+                                                    <div className="flex items-center gap-2 text-white font-extrabold text-sm uppercase tracking-wider mb-4">
+                                                        <Settings2 className="w-4 h-4 text-[#b3122e]" /> Customize Your Experience
                                                     </div>
-                                                    {EXTRAS.map(ex => {
+                                                    {extras.map(ex => {
                                                         const active = selectedExtras.includes(ex.id);
                                                         return (
                                                             <button key={ex.id} type="button" onClick={() => toggleExtra(ex.id)}
-                                                                className={`w-full flex items-start gap-3 p-3.5 rounded-sm border-2 text-left transition-all duration-200 ${
-                                                                    active ? "border-black bg-black text-white" : "border-gray-100 bg-gray-50 hover:border-gray-300 text-black"
+                                                                className={`w-full flex items-start gap-3 p-3.5 rounded-sm border text-left transition-all duration-200 ${
+                                                                    active ? "border-[#b3122e] bg-[#b3122e]/10 text-white" : "border-white/10 bg-white/5 hover:border-white/25 text-white"
                                                                 }`}>
-                                                                <span className={`mt-0.5 flex-shrink-0 ${active ? "text-white" : "text-gray-500"}`}>{ex.icon}</span>
+                                                                <span className={`mt-0.5 flex-shrink-0 ${active ? "text-[#b3122e]" : "text-zinc-400"}`}>{ex.icon}</span>
                                                                 <div className="flex-1 min-w-0">
-                                                                    <p className="font-extrabold text-sm">{ex.label}</p>
-                                                                    <p className={`text-xs mt-0.5 ${active ? "text-gray-300" : "text-gray-500"}`}>{ex.desc}</p>
+                                                                    <p className="font-extrabold text-sm text-white">{ex.label}</p>
+                                                                    <p className={`text-xs mt-0.5 ${active ? "text-zinc-300" : "text-zinc-400"}`}>{ex.desc}</p>
                                                                 </div>
                                                                 <div className="flex-shrink-0 text-right">
-                                                                    <p className="font-extrabold text-sm">+${ex.price}</p>
-                                                                    <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center mt-1 ml-auto transition-all ${
-                                                                        active ? "bg-white border-white" : "border-gray-300"
+                                                                    <p className="font-extrabold text-sm text-[#b3122e]">+${ex.price}</p>
+                                                                    <div className={`w-4 h-4 rounded-full border flex items-center justify-center mt-1 ml-auto transition-all ${
+                                                                        active ? "bg-[#b3122e] border-[#b3122e]" : "border-white/30"
                                                                     }`}>
-                                                                        {active && <Check className="w-2.5 h-2.5 text-black" />}
+                                                                        {active && <Check className="w-2.5 h-2.5 text-white" />}
                                                                     </div>
                                                                 </div>
                                                             </button>
                                                         );
                                                     })}
                                                     {selectedExtras.length === 0 && (
-                                                        <p className="text-center text-xs text-gray-400 py-2">Skip to continue with no add-ons</p>
+                                                        <p className="text-center text-xs text-zinc-500 py-2">Skip to continue with no add-ons</p>
                                                     )}
                                                 </div>
                                             )}
@@ -338,8 +354,8 @@ const CarDetail = () => {
                                             {/* ── STEP 2: Contact Info ── */}
                                             {step === 2 && (
                                                 <div className="space-y-4">
-                                                    <div className="flex items-center gap-2 text-black font-extrabold text-sm uppercase tracking-wider mb-4">
-                                                        <User className="w-4 h-4" /> Your Information
+                                                    <div className="flex items-center gap-2 text-white font-extrabold text-sm uppercase tracking-wider mb-4">
+                                                        <User className="w-4 h-4 text-[#b3122e]" /> Your Information
                                                     </div>
                                                     {[
                                                         { key: "name", label: "Full Name", type: "text", icon: <User className="w-4 h-4" />, placeholder: "John Smith" },
@@ -347,13 +363,13 @@ const CarDetail = () => {
                                                         { key: "email", label: "Email Address", type: "email", icon: <Mail className="w-4 h-4" />, placeholder: "john@example.com" },
                                                     ].map(f => (
                                                         <div key={f.key}>
-                                                            <label className="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-1.5">{f.label}</label>
+                                                            <label className="block text-xs font-bold uppercase tracking-wider text-zinc-400 mb-1.5 font-mono">{f.label}</label>
                                                             <div className="relative">
-                                                                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">{f.icon}</span>
+                                                                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400">{f.icon}</span>
                                                                 <input type={f.type} placeholder={f.placeholder}
                                                                     value={contact[f.key as keyof typeof contact]}
                                                                     onChange={e => setContact(prev => ({ ...prev, [f.key]: e.target.value }))}
-                                                                    className="w-full border border-gray-200 pl-10 pr-3 py-3 text-sm font-medium focus:outline-none focus:border-black transition-colors rounded-sm"
+                                                                    className="w-full border border-white/20 h-12 min-h-[48px] pl-10 pr-3 py-3 text-[16px] font-medium focus:outline-none focus:border-white transition-colors rounded-sm bg-[#1c1c20] text-white"
                                                                 />
                                                             </div>
                                                         </div>
@@ -364,36 +380,40 @@ const CarDetail = () => {
                                             {/* ── STEP 3: Confirm ── */}
                                             {step === 3 && (
                                                 <div className="space-y-4">
-                                                    <div className="flex items-center gap-2 text-black font-extrabold text-sm uppercase tracking-wider mb-4">
-                                                        <Check className="w-4 h-4" /> Review & Confirm
+                                                    <div className="flex items-center gap-2 text-white font-extrabold text-sm uppercase tracking-wider mb-4">
+                                                        <Check className="w-4 h-4 text-[#b3122e]" /> Review & Confirm
                                                     </div>
 
                                                     {/* Summary card */}
-                                                    <div className="bg-gray-50 border border-gray-100 rounded-sm divide-y divide-gray-100 text-sm overflow-hidden">
+                                                    <div className="bg-white/5 border border-white/10 rounded-sm divide-y divide-white/10 text-sm overflow-hidden">
                                                         <div className="px-4 py-3">
-                                                            <p className="text-[10px] uppercase tracking-widest text-gray-400 font-bold mb-0.5">Vehicle</p>
-                                                            <p className="font-extrabold text-black">{car.title}</p>
+                                                            <p className="text-[10px] uppercase tracking-widest text-zinc-400 font-bold mb-0.5 font-mono">Vehicle</p>
+                                                            <p className="font-extrabold text-white">{car.title}</p>
                                                         </div>
                                                         <div className="px-4 py-3 grid grid-cols-2 gap-2">
                                                             <div>
-                                                                <p className="text-[10px] uppercase tracking-widest text-gray-400 font-bold mb-0.5">Pickup</p>
-                                                                <p className="font-bold text-black">{formatDate(pickupDate)}</p>
+                                                                <p className="text-[10px] uppercase tracking-widest text-zinc-400 font-bold mb-0.5 font-mono">Date</p>
+                                                                <p className="font-bold text-white">{formatDate(bookingDate)}</p>
                                                             </div>
                                                             <div>
-                                                                <p className="text-[10px] uppercase tracking-widest text-gray-400 font-bold mb-0.5">Return</p>
-                                                                <p className="font-bold text-black">{formatDate(returnDate)}</p>
+                                                                <p className="text-[10px] uppercase tracking-widest text-zinc-400 font-bold mb-0.5 font-mono">Start Time</p>
+                                                                <p className="font-bold text-white">{startTime || "—"}</p>
                                                             </div>
                                                         </div>
                                                         <div className="px-4 py-3">
-                                                            <p className="text-[10px] uppercase tracking-widest text-gray-400 font-bold mb-0.5">Location</p>
-                                                            <p className="font-bold text-black">{pickupLocation}</p>
+                                                            <p className="text-[10px] uppercase tracking-widest text-zinc-400 font-bold mb-0.5 font-mono">Duration</p>
+                                                            <p className="font-bold text-white">{hours} hour{hours > 1 ? "s" : ""}</p>
+                                                        </div>
+                                                        <div className="px-4 py-3">
+                                                            <p className="text-[10px] uppercase tracking-widest text-zinc-400 font-bold mb-0.5 font-mono">Location</p>
+                                                            <p className="font-bold text-white">{pickupLocation}</p>
                                                         </div>
                                                         {selectedExtras.length > 0 && (
                                                             <div className="px-4 py-3">
-                                                                <p className="text-[10px] uppercase tracking-widest text-gray-400 font-bold mb-1">Add-ons</p>
+                                                                <p className="text-[10px] uppercase tracking-widest text-zinc-400 font-bold mb-1 font-mono">Add-ons</p>
                                                                 {selectedExtras.map(id => {
                                                                     const ex = EXTRAS.find(x => x.id === id)!;
-                                                                    return <p key={id} className="text-gray-700">• {ex.label} <span className="text-gray-400">+${ex.price}</span></p>;
+                                                                    return <p key={id} className="text-zinc-300">• {ex.label} <span className="text-[#b3122e]">+${ex.price}</span></p>;
                                                                 })}
                                                             </div>
                                                         )}
@@ -401,28 +421,28 @@ const CarDetail = () => {
 
                                                     {/* Price breakdown */}
                                                     <div className="space-y-2 text-sm">
-                                                        <div className="flex justify-between text-gray-500">
-                                                            <span>{car.price} × {days} day{days > 1 ? "s" : ""}</span>
-                                                            <span>${basePrice.toLocaleString()}</span>
+                                                        <div className="flex justify-between text-zinc-400">
+                                                            <span>{car.price} × {hours} hour{hours > 1 ? "s" : ""}</span>
+                                                            <span className="text-white">${basePrice.toLocaleString()}</span>
                                                         </div>
                                                         {selectedExtras.map(id => {
-                                                            const ex = EXTRAS.find(x => x.id === id)!;
+                                                            const ex = extras.find(x => x.id === id)!;
                                                             return (
-                                                                <div key={id} className="flex justify-between text-gray-500">
+                                                                <div key={id} className="flex justify-between text-zinc-400">
                                                                     <span>{ex.label}</span>
-                                                                    <span>+${ex.price}</span>
+                                                                    <span className="text-white">+${ex.price}</span>
                                                                 </div>
                                                             );
                                                         })}
-                                                        <div className="flex justify-between text-gray-500">
-                                                            <span>Security Deposit</span>
-                                                            <span className="text-gray-400">Refundable</span>
+                                                        <div className="flex justify-between text-zinc-400">
+                                                            <span>Tolls &amp; Fees</span>
+                                                            <span className="text-zinc-500">Billed separately</span>
                                                         </div>
-                                                        <div className="flex justify-between font-extrabold text-black text-lg border-t border-gray-200 pt-2">
+                                                        <div className="flex justify-between font-extrabold text-white text-lg border-t border-white/10 pt-2">
                                                             <span>Estimated Total</span>
-                                                            <span>${grandTotal.toLocaleString()}*</span>
+                                                            <span className="text-[#b3122e]">${grandTotal.toLocaleString()}*</span>
                                                         </div>
-                                                        <p className="text-[10px] text-gray-400">*Excluding deposit & applicable fees</p>
+                                                        <p className="text-[10px] text-zinc-500">*Excluding tolls &amp; applicable fees</p>
                                                     </div>
                                                 </div>
                                             )}
@@ -432,46 +452,46 @@ const CarDetail = () => {
                                         <div className={`mt-6 flex gap-3 ${step > 0 ? "justify-between" : "justify-end"}`}>
                                             {step > 0 && (
                                                 <Button type="button" variant="outline" onClick={goBack}
-                                                    className="flex items-center gap-1.5 border-gray-300 text-gray-600 hover:bg-gray-50 font-bold uppercase tracking-wider text-xs rounded-sm h-12 px-4">
+                                                    className="cta-btn flex items-center gap-1.5 border-white/20 text-zinc-300 hover:bg-white/10 uppercase rounded-sm h-12 px-4">
                                                     <ChevronLeft className="w-4 h-4" /> Back
                                                 </Button>
                                             )}
                                             {step < 3 ? (
                                                 <Button type="button" onClick={goNext} disabled={!canProceed()}
-                                                    className="flex-1 bg-black hover:bg-gray-800 disabled:bg-gray-200 disabled:text-gray-400 text-white font-extrabold h-12 text-xs uppercase tracking-wider rounded-sm flex items-center justify-center gap-2 transition-all">
+                                                    className="cta-btn flex-1 bg-[#b3122e] hover:bg-[#8e0e24] disabled:bg-white/10 disabled:text-zinc-500 text-white h-12 uppercase rounded-sm flex items-center justify-center gap-2 transition-all">
                                                     Continue <ChevronRight className="w-4 h-4" />
                                                 </Button>
                                             ) : (
                                                 <Button type="button" onClick={handleSubmit}
-                                                    className="flex-1 bg-black hover:bg-gray-900 text-white font-extrabold h-12 text-sm uppercase tracking-widest rounded-sm">
+                                                    className="cta-btn flex-1 bg-[#b3122e] hover:bg-[#8e0e24] text-white h-12 uppercase rounded-sm">
                                                     Confirm Reservation
                                                 </Button>
                                             )}
                                         </div>
 
-                                        <p className="text-center text-[10px] text-gray-400 mt-3">
+                                        <p className="text-center text-[10px] text-zinc-500 mt-3">
                                             No charge today · Free cancellation up to 48 hrs
                                         </p>
                                     </div>
                                 ) : (
                                     /* ── SUCCESS STATE ── */
-                                    <div className="p-8 bg-white text-center space-y-4">
-                                        <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mx-auto">
-                                            <Check className="w-8 h-8 text-green-600" />
+                                    <div className="p-8 bg-[#141416] text-center space-y-4 text-white">
+                                        <div className="w-16 h-16 rounded-full bg-green-500/20 flex items-center justify-center mx-auto">
+                                            <Check className="w-8 h-8 text-green-400" />
                                         </div>
-                                        <h3 className="text-xl font-extrabold text-black">Reservation Received!</h3>
-                                        <p className="text-gray-500 text-sm leading-relaxed">
+                                        <h3 className="text-xl font-extrabold text-white">Reservation Received!</h3>
+                                        <p className="text-zinc-300 text-sm leading-relaxed">
                                             Hey <strong>{contact.name}</strong>! Our team will call you at <strong>{contact.phone}</strong> within <strong>2 hours</strong> to finalize your <strong>{car.title}</strong> booking in {pickupLocation}.
                                         </p>
-                                        <div className="bg-gray-50 rounded-sm p-4 text-left text-sm space-y-1.5 text-gray-600">
-                                            <p>📅 <strong>{formatDate(pickupDate)}</strong> → <strong>{formatDate(returnDate)}</strong></p>
+                                        <div className="bg-white/5 border border-white/10 rounded-sm p-4 text-left text-sm space-y-1.5 text-zinc-300">
+                                            <p>📅 <strong>{formatDate(bookingDate)}</strong> at <strong>{startTime || "—"}</strong> · <strong>{hours} hr{hours > 1 ? "s" : ""}</strong></p>
                                             <p>📍 {pickupLocation}</p>
-                                            <p>💰 Est. <strong>${grandTotal.toLocaleString()}</strong> (excl. deposit)</p>
+                                            <p>💰 Est. <strong className="text-[#b3122e]">${grandTotal.toLocaleString()}</strong> (excl. tolls)</p>
                                         </div>
-                                        <a href="tel:8572778709" className="block w-full bg-black text-white font-bold py-3 text-sm uppercase tracking-wider text-center rounded-sm hover:bg-gray-800 transition-colors">
-                                            Call Us: (857) 277-8709
+                                        <a href="https://smooveluxurybooking.as.me/schedule/b24e2156" target="_blank" rel="noopener noreferrer" className="block w-full bg-[#b3122e] text-white font-bold py-3 text-sm uppercase tracking-wider text-center rounded-sm hover:bg-[#8e0e24] transition-colors">
+                                            Book Online Now
                                         </a>
-                                        <button onClick={() => { setSubmitted(false); setStep(0); }} className="text-xs text-gray-400 underline hover:text-gray-600">
+                                        <button onClick={() => { setSubmitted(false); setStep(0); }} className="text-xs text-zinc-400 underline hover:text-white">
                                             Start a new booking
                                         </button>
                                     </div>
@@ -479,9 +499,9 @@ const CarDetail = () => {
                             </div>
 
                             {/* Contact nudge */}
-                            <div className="mt-4 p-4 bg-gray-50 border border-gray-200 rounded-sm text-sm text-gray-600 text-center">
-                                Questions? Call us at{" "}
-                                <a href="tel:8572778709" className="font-bold text-black hover:underline">(857) 277-8709</a>
+                            <div className="mt-4 p-4 bg-white/5 border border-white/10 rounded-sm text-sm text-zinc-300 text-center">
+                                Questions? Book online at{" "}
+                                <a href="https://smooveluxurybooking.as.me/schedule/b24e2156" target="_blank" rel="noopener noreferrer" className="font-bold text-white hover:text-[#b3122e] hover:underline">smooveluxurybooking.as.me</a>
                             </div>
                         </div>
                     </div>
@@ -491,30 +511,36 @@ const CarDetail = () => {
                 {related.length > 0 && (
                     <div className="mt-20">
                         <div className="flex items-center justify-between mb-8">
-                            <h2 className="text-3xl font-extrabold text-black">More in {car.location}</h2>
-                            <button onClick={() => navigate("/fleet")} className="flex items-center gap-1 text-sm font-bold uppercase tracking-wider text-gray-500 hover:text-black transition-colors">
+                            <h2 className="text-3xl font-extrabold text-white">More in {car.location}</h2>
+                            <button onClick={() => navigate("/fleet")} className="flex items-center gap-1 text-sm font-bold uppercase tracking-wider text-zinc-400 hover:text-white transition-colors">
                                 View All <ChevronRight className="w-4 h-4" />
                             </button>
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                             {related.map(rc => (
                                 <div key={rc.id} onClick={() => navigate(`/fleet/${rc.slug}`)}
-                                    className="group border hover:shadow-xl transition-all duration-300 cursor-pointer bg-white overflow-hidden rounded-sm">
-                                    <div className="relative aspect-[4/3] overflow-hidden">
-                                        <img src={rc.image} alt={rc.title}
-                                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                                    className="group border border-neutral-800 hover:border-[#b3122e]/50 hover:shadow-xl transition-all duration-300 cursor-pointer bg-[#141416] overflow-hidden rounded-sm">
+                                    <div className="relative aspect-[4/3] overflow-hidden bg-neutral-900">
+                                        {rc.image ? (
+                                            <img src={rc.image} alt={rc.title}
+                                                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                                        ) : (
+                                            <div className="w-full h-full flex items-center justify-center text-neutral-600">
+                                                <Car className="w-12 h-12 stroke-[1]" />
+                                            </div>
+                                        )}
                                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                                         <div className="absolute bottom-4 left-4 text-white">
-                                            <p className="text-xs text-gray-300 uppercase tracking-wider mb-0.5">{rc.location}</p>
-                                            <h3 className="font-extrabold text-lg leading-tight">{rc.title}</h3>
+                                            <p className="text-xs text-zinc-400 uppercase tracking-wider mb-0.5">{rc.location}</p>
+                                            <h3 className="font-extrabold text-lg leading-tight text-white">{rc.title}</h3>
                                         </div>
                                     </div>
                                     <div className="p-4 flex justify-between items-center">
                                         <div>
-                                            <p className="text-[11px] uppercase tracking-wider text-gray-400 font-bold">Price/Day</p>
-                                            <p className="text-2xl font-extrabold text-black">{rc.price}</p>
+                                            <p className="text-[11px] uppercase tracking-wider text-zinc-400 font-bold font-mono">Price/Hour</p>
+                                            <p className="text-2xl font-extrabold text-[#b3122e]">{rc.price || "Ask for rate"}</p>
                                         </div>
-                                        <Button className="bg-black text-white text-xs font-bold px-4 h-9 rounded-sm uppercase tracking-wider">
+                                        <Button className="bg-[#b3122e] hover:bg-[#8e0e24] text-white text-xs font-bold px-4 h-9 rounded-sm uppercase tracking-wider">
                                             View
                                         </Button>
                                     </div>
