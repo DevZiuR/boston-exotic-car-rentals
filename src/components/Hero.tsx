@@ -130,7 +130,7 @@ const Hero = () => {
       <div className="relative z-10 text-center px-4 max-w-5xl mx-auto my-auto flex flex-col items-center justify-center">
         <RevealOnScroll isHeading className="flex flex-col items-center">
 
-          <h1 className="text-[38px] sm:text-[56px] md:text-[76px] lg:text-[90px] text-white font-serif leading-[1.05] tracking-[-0.02em] mb-6 drop-shadow-[0_4px_24px_rgba(0,0,0,0.9)] text-center">
+          <h1 className="text-[52px] sm:text-[56px] md:text-[76px] lg:text-[90px] text-white font-serif leading-[1.05] tracking-[-0.02em] mb-6 drop-shadow-[0_4px_24px_rgba(0,0,0,0.9)] text-center">
             <span className="text-white">ARRIVE UNDER</span><br />
             <span className="hero-outline-stars italic">THE STARS.</span>
           </h1>
