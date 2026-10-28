@@ -28,8 +28,8 @@ export const RevealOnScroll: React.FC<RevealOnScrollProps> = ({
   yOffset = 24,
   className = '',
   as = 'div',
-  viewportMargin = '-10% 0px',
-  threshold = 0.15,
+  viewportMargin = '0px 0px -40px 0px',
+  threshold = 0.05,
   once = true,
   style = {},
   isHeading,
@@ -40,7 +40,7 @@ export const RevealOnScroll: React.FC<RevealOnScrollProps> = ({
   const shouldReduceMotion = useReducedMotion();
   const isInView = useInView(ref, {
     margin: viewportMargin as any,
-    amount: threshold,
+    amount: 'some',
     once,
   });
 
@@ -101,10 +101,10 @@ export interface StaggerContainerProps {
 export const StaggerContainer: React.FC<StaggerContainerProps> = ({
   children,
   className = '',
-  staggerDelay = 0.1,
+  staggerDelay = 0.08,
   delayChildren = 0,
-  viewportMargin = '-10% 0px',
-  threshold = 0.15,
+  viewportMargin = '0px 0px -40px 0px',
+  threshold = 0.05,
   once = true,
   as = 'div',
   style = {},
@@ -113,12 +113,12 @@ export const StaggerContainer: React.FC<StaggerContainerProps> = ({
   const shouldReduceMotion = useReducedMotion();
   const isInView = useInView(ref, {
     margin: viewportMargin as any,
-    amount: threshold,
+    amount: 'some',
     once,
   });
 
   const containerVariants: Variants = {
-    hidden: { opacity: 0 },
+    hidden: { opacity: 1 },
     visible: {
       opacity: 1,
       transition: {
