@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import React, { forwardRef, useEffect, useRef } from "react";
 import { ChevronDown } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import RevealOnScroll from "./RevealOnScroll";
@@ -31,7 +31,7 @@ const STARS = [
   { top: "38%", left: "91%", size: 1.5, delay: 1.4, duration: 3.5, opacity: 0.55 },
 ];
 
-const Hero = () => {
+const Hero = forwardRef<HTMLElement>((_props, ref) => {
   const navigate = useNavigate();
   const bgRef = useRef<HTMLDivElement>(null);
 
@@ -46,6 +46,10 @@ const Hero = () => {
     const handleScroll = () => {
       if (!ticking) {
         window.requestAnimationFrame(() => {
+          if (window.scrollY > window.innerHeight * 1.5) {
+            ticking = false;
+            return;
+          }
           if (bgRef.current) {
             const currentScroll = window.scrollY;
             // Background image parallax at ~0.8 scroll speed:
@@ -66,7 +70,11 @@ const Hero = () => {
   }, []);
 
   return (
-    <section id="home" className="relative min-h-screen flex flex-col justify-center items-center overflow-hidden pt-28 pb-16">
+    <section
+      ref={ref}
+      id="home"
+      className="sticky top-0 z-[1] min-h-screen flex flex-col justify-center items-center overflow-hidden pt-28 pb-16 will-change-[transform,opacity]"
+    >
       {/* Background Image with Parallax (~0.8 scroll speed, transform only, will-change: transform) */}
       <div
         ref={bgRef}
@@ -181,6 +189,8 @@ const Hero = () => {
       */}
     </section>
   );
-};
+});
+
+Hero.displayName = "Hero";
 
 export default Hero;
