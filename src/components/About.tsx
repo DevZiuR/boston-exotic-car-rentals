@@ -76,14 +76,14 @@ const About = () => {
   return (
     <section
       id="about"
-      className="relative bg-[#faf8f5] text-[#0b0b0e] py-10 sm:py-12 md:py-14 px-4 sm:px-6 lg:px-8 overflow-hidden border-b border-black/[0.05]"
+      className="relative bg-[#07070a] text-white py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-8 overflow-hidden border-b border-white/10"
     >
       <div className="container mx-auto max-w-4xl flex flex-col items-center text-center">
         {/* Pill Badge */}
         <RevealOnScroll className="flex flex-col items-center">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-black/[0.08] shadow-[0_2px_8px_rgba(0,0,0,0.03)] mb-4 sm:mb-5">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 shadow-[0_2px_8px_rgba(0,0,0,0.3)] mb-4 sm:mb-5">
             <span className="text-[#b3122e] text-xs font-bold leading-none select-none" aria-hidden="true">✱</span>
-            <span className="text-[11px] sm:text-xs font-mono font-bold uppercase tracking-[0.2em] text-[#0b0b0e]">
+            <span className="text-[11px] sm:text-xs font-mono font-bold uppercase tracking-[0.2em] text-white">
               ABOUT US
             </span>
           </div>
@@ -92,12 +92,12 @@ const About = () => {
         {/* Large Editorial Statement with Scroll-Driven Word Reveal */}
         <p
           ref={paragraphRef}
-          className="about-statement text-[28px] sm:text-3xl md:text-4xl lg:text-[44px] xl:text-[48px] font-normal leading-[1.24] sm:leading-[1.2] md:leading-[1.22] tracking-[-0.015em] text-center max-w-4xl mx-auto text-[#0b0b0e] break-words"
+          className="about-statement text-[28px] sm:text-3xl md:text-4xl lg:text-[44px] xl:text-[48px] font-normal leading-[1.24] sm:leading-[1.2] md:leading-[1.22] tracking-[-0.015em] text-center max-w-4xl mx-auto text-white break-words"
         >
           {WORDS.map((word, index) => (
             <React.Fragment key={index}>
               <span
-                className="about-word inline-block"
+                className="about-word inline-block text-white"
                 style={{ opacity: reducedMotion ? 1 : 0.15 }}
               >
                 {word}

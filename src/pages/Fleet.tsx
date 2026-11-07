@@ -32,7 +32,16 @@ const Fleet = () => {
     useEffect(() => {
         if (selectedCity && cityRefs.current[selectedCity]) {
             setTimeout(() => {
-                cityRefs.current[selectedCity]?.scrollIntoView({ behavior: "smooth", block: "start" });
+                const element = cityRefs.current[selectedCity];
+                if (element) {
+                    const header = document.querySelector("header");
+                    const headerHeight = header ? header.getBoundingClientRect().height : 80;
+                    if (window.lenis) {
+                        window.lenis.scrollTo(element, { offset: -headerHeight, duration: 1.4 });
+                    } else {
+                        element.scrollIntoView({ behavior: "smooth", block: "start" });
+                    }
+                }
             }, 300);
         }
     }, [selectedCity]);

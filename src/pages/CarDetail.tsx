@@ -254,7 +254,7 @@ const CarDetail = () => {
                                 </div>
 
                                 {!submitted ? (
-                                    <div className="bg-[#141416] p-6 text-white">
+                                    <div className="bg-[#141416] p-6 text-white" data-lenis-prevent>
                                         <StepBar step={step} />
 
                                         <div className={`transition-all duration-300 ${dir === "forward" ? "animate-[slideInRight_0.3s_ease]" : "animate-[slideInLeft_0.3s_ease]"}`}
@@ -286,7 +286,7 @@ const CarDetail = () => {
                                                         </div>
                                                         <div>
                                                             <label className="block text-xs font-bold uppercase tracking-wider text-zinc-400 mb-1.5 font-mono">Duration (hours)</label>
-                                                            <select value={hours} onChange={e => setHours(Number(e.target.value))}
+                                                            <select data-lenis-prevent value={hours} onChange={e => setHours(Number(e.target.value))}
                                                                 className="w-full border border-white/20 h-12 min-h-[48px] p-3 text-[16px] font-medium focus:outline-none focus:border-white transition-colors rounded-sm bg-[#1c1c20] text-white">
                                                                 {[3, 4, 5, 6, 8, 10, 12].map(h => (
                                                                     <option key={h} value={h} className="bg-[#1c1c20] text-white">{h} hour{h > 1 ? "s" : ""}</option>
@@ -296,7 +296,7 @@ const CarDetail = () => {
                                                     </div>
                                                     <div>
                                                         <label className="block text-xs font-bold uppercase tracking-wider text-zinc-400 mb-1.5 font-mono">Pickup Area</label>
-                                                        <select value={pickupLocation} onChange={e => setPickupLocation(e.target.value)}
+                                                        <select data-lenis-prevent value={pickupLocation} onChange={e => setPickupLocation(e.target.value)}
                                                             className="w-full border border-white/20 h-12 min-h-[48px] p-3 text-[16px] font-medium focus:outline-none focus:border-white transition-colors rounded-sm bg-[#1c1c20] text-white">
                                                             <option value="" className="bg-[#1c1c20] text-white">Select area...</option>
                                                             <option className="bg-[#1c1c20] text-white">New York — NYC / New Jersey</option>

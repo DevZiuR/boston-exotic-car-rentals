@@ -31,7 +31,13 @@ const Process = () => {
     const scrollToContact = () => {
         const element = document.querySelector("#contact");
         if (element) {
-            element.scrollIntoView({ behavior: "smooth" });
+            const header = document.querySelector("header");
+            const headerHeight = header ? header.getBoundingClientRect().height : 80;
+            if (window.lenis) {
+                window.lenis.scrollTo(element, { offset: -headerHeight, duration: 1.4 });
+            } else {
+                element.scrollIntoView({ behavior: "smooth" });
+            }
         }
     };
 

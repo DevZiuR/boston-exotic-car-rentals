@@ -92,7 +92,7 @@ const Gallery = () => {
   }, [homeFleet, activeFilter]);
 
   return (
-    <section id="fleet" className="py-20 md:py-32 bg-[#f5f2ed] text-[#0b0b0e] overflow-hidden">
+    <section id="fleet" className="py-20 md:py-32 bg-[#07070a] text-white overflow-hidden border-b border-white/10">
       <div className="container mx-auto px-4 md:px-6 lg:px-8">
 
         {/* Section Header */}
@@ -100,10 +100,10 @@ const Gallery = () => {
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 sm:mb-12 gap-6">
             <div className="flex flex-col space-y-4">
               <div className="space-y-2">
-                <h2 className="text-4xl md:text-5xl lg:text-5xl font-normal text-[#0b0b0e] leading-tight tracking-tight">
+                <h2 className="text-4xl md:text-5xl lg:text-5xl font-normal text-white leading-tight tracking-tight">
                   Luxury Vehicles for Every Occasion
                 </h2>
-                <p className="text-[#5b5b63] text-base md:text-lg font-medium tracking-wide max-w-2xl">
+                <p className="text-zinc-400 text-base md:text-lg font-medium tracking-wide max-w-2xl">
                   Chauffeur-driven comfort, power, and prestige across the Tri-State, Atlanta, and Miami.
                 </p>
               </div>
@@ -112,7 +112,7 @@ const Gallery = () => {
             <div className="flex items-center">
               <button
                 onClick={() => navigate("/fleet")}
-                className="group flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[#b3122e] hover:text-[#0b0b0e] transition-colors py-2"
+                className="group flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[#b3122e] hover:text-white transition-colors py-2"
               >
                 VIEW FULL FLEET <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
               </button>
@@ -122,7 +122,7 @@ const Gallery = () => {
 
         {/* Filter Tabs with Active Filter Underline Crimson #b3122e */}
         <RevealOnScroll delay={80} className="overflow-hidden">
-          <div className="flex items-center gap-6 sm:gap-8 overflow-x-auto pb-3 mb-10 scrollbar-none border-b border-[rgba(0,0,0,0.08)]">
+          <div className="flex items-center gap-6 sm:gap-8 overflow-x-auto pb-3 mb-10 scrollbar-none border-b border-white/10">
             {FILTER_TABS.map((tab) => {
               const count =
                 tab.key === "all"
@@ -134,15 +134,15 @@ const Gallery = () => {
                   key={tab.key}
                   onClick={() => setActiveFilter(tab.key)}
                   className={`relative flex-shrink-0 min-h-[44px] pb-3 text-xs sm:text-sm font-bold uppercase tracking-wider transition-colors duration-200 flex items-center gap-2 bg-transparent border-0 shadow-none outline-none ${isActive
-                    ? "text-[#0b0b0e]"
-                    : "text-[#5b5b63] hover:text-[#0b0b0e]"
+                    ? "text-white"
+                    : "text-zinc-400 hover:text-white"
                     }`}
                 >
                   <span>{tab.label}</span>
                   <span
                     className={`text-[10px] px-1.5 py-0.5 rounded-full transition-colors ${isActive
                       ? "bg-[#b3122e] text-white font-extrabold"
-                      : "bg-[rgba(0,0,0,0.06)] text-[#5b5b63]"
+                      : "bg-white/10 text-zinc-400"
                       }`}
                   >
                     {count}
@@ -161,10 +161,10 @@ const Gallery = () => {
           {filteredFleet.map((car) => (
             <StaggerItem key={car.id} className="h-full">
               <div
-                className="group relative flex flex-col bg-white rounded-2xl overflow-hidden transition-all duration-300 h-full border-0 shadow-none"
+                className="group relative flex flex-col bg-[#161616] border border-neutral-800 rounded-2xl overflow-hidden transition-all duration-300 h-full shadow-lg"
               >
                 {/* 16:10 Photo Ratio Container */}
-                <div className="relative aspect-[16/10] overflow-hidden bg-neutral-200">
+                <div className="relative aspect-[16/10] overflow-hidden bg-neutral-900">
                   {car.image ? (
                     <img
                       src={car.image}
@@ -176,7 +176,7 @@ const Gallery = () => {
                       className="w-full h-full object-cover transition-transform duration-700"
                     />
                   ) : (
-                    <div className="w-full h-full flex flex-col items-center justify-center bg-neutral-100 text-neutral-500">
+                    <div className="w-full h-full flex flex-col items-center justify-center bg-neutral-900 text-neutral-500">
                       <CarIcon className="w-10 h-10 mb-2 stroke-[1.5] text-neutral-500" />
                       <span className="text-[11px] uppercase tracking-widest font-mono text-neutral-500">Photo Coming Soon</span>
                     </div>
@@ -193,29 +193,29 @@ const Gallery = () => {
                 </div>
 
                 {/* Card Content */}
-                <div className="p-5 flex flex-col flex-1 justify-between gap-4 bg-white">
+                <div className="p-5 flex flex-col flex-1 justify-between gap-4 bg-[#161616]">
                   <div>
                     {/* Vehicle Name (without (ATL)/(MIA)) */}
-                    <h3 className="text-xl font-bold text-[#0b0b0e] tracking-tight line-clamp-1">
+                    <h3 className="text-xl font-bold text-white tracking-tight line-clamp-1">
                       {cleanTitle(car.title)}
                     </h3>
 
                     {/* One Muted Line: N seats · N hr min */}
-                    <p className="text-xs text-[#5b5b63] font-sans mt-1">
+                    <p className="text-xs text-zinc-400 font-sans mt-1">
                       {formatSeatsMin(car)}
                     </p>
                   </div>
 
                   {/* Bottom Action Row: "$X/hr" and Book Now Button */}
-                  <div className="flex items-center justify-between gap-3 pt-3 border-t border-[rgba(0,0,0,0.08)] mt-auto">
+                  <div className="flex items-center justify-between gap-3 pt-3 border-t border-white/10 mt-auto">
                     <div>
                       {car.price ? (
-                        <div className="text-lg font-bold text-[#0b0b0e]">
+                        <div className="text-lg font-bold text-white">
                           <span className="text-[#b3122e]">{car.price}</span>
-                          <span className="text-xs text-[#5b5b63] font-normal">/hr</span>
+                          <span className="text-xs text-zinc-400 font-normal">/hr</span>
                         </div>
                       ) : (
-                        <span className="text-sm font-bold text-[#5b5b63]">Ask for rate</span>
+                        <span className="text-sm font-bold text-zinc-400">Ask for rate</span>
                       )}
                     </div>
 

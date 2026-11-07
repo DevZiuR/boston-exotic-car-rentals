@@ -90,10 +90,15 @@ const Header = () => {
   const scrollToSection = useCallback((id: string) => {
     const element = document.getElementById(id);
     if (element) {
-      const offset = 80;
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - offset;
-      window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+      const header = document.querySelector("header");
+      const headerHeight = header ? header.getBoundingClientRect().height : 80;
+      if (window.lenis) {
+        window.lenis.scrollTo(element, { offset: -headerHeight, duration: 1.4 });
+      } else {
+        const elementPosition = element.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - headerHeight;
+        window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+      }
     }
   }, []);
 
@@ -178,6 +183,7 @@ const Header = () => {
 
                     {/* Horizontal Mega-menu */}
                     <div
+                      data-lenis-prevent
                       className={`fixed left-0 right-0 top-full transition-all duration-300 origin-top ${fleetDropdownOpen
                         ? "opacity-100 translate-y-0 pointer-events-auto"
                         : "opacity-0 -translate-y-3 pointer-events-none"
@@ -240,45 +246,68 @@ const Header = () => {
             </button>
           </div>
 
-          {/* Mobile Menu Button */}
+          {/* Mobile Menu Button with Animated Hamburger & Dot */}
           <div className="lg:hidden flex-1 flex justify-end items-center px-2 sm:px-4">
-            <Button
-              variant="ghost"
-              size="icon"
+            <button
               onClick={() => setIsOpen(!isOpen)}
-              className="text-white hover:bg-white/10 w-12 h-12 min-h-[48px] min-w-[48px] flex items-center justify-center p-0"
+              className="text-white hover:bg-white/10 active:scale-90 min-h-[48px] px-3 rounded-md flex items-center justify-center transition-all duration-200 focus:outline-none"
               aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
             >
-              {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-            </Button>
+              {/* Morphing Hamburger Bars */}
+              <div className="relative w-5 h-4 flex flex-col justify-between">
+                <span
+                  className={`block h-0.5 w-5 bg-white rounded-full transition-all duration-300 ease-in-out origin-center ${
+                    isOpen ? "rotate-45 translate-y-[7px] bg-[#b3122e]" : ""
+                  }`}
+                />
+                <span
+                  className={`block h-0.5 w-3.5 ml-auto bg-white rounded-full transition-all duration-200 ease-in-out ${
+                    isOpen ? "opacity-0 -translate-x-2" : "opacity-100"
+                  }`}
+                />
+                <span
+                  className={`block h-0.5 w-5 bg-white rounded-full transition-all duration-300 ease-in-out origin-center ${
+                    isOpen ? "-rotate-45 -translate-y-[7px] bg-[#b3122e]" : ""
+                  }`}
+                />
+              </div>
+            </button>
           </div>
 
         </div>
       </div>
 
-      {/* Mobile Menu Overlay */}
-      {isOpen && (
-        <div className="fixed inset-0 bg-black z-[999] lg:hidden flex flex-col h-[100dvh] w-screen" style={{ top: 0 }}>
-          {/* Close bar at top — matches header height */}
-          <div className="bg-black border-b border-white/10 flex items-center justify-between px-4 py-4 min-h-[70px] sm:min-h-[90px] flex-shrink-0">
-            <img
-              src="/images/logo.png"
-              alt="Smoove Luxury Transportation"
-              className="h-12 sm:h-14 w-auto object-contain"
-            />
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setIsOpen(false)}
-              className="text-white hover:bg-white/10 w-12 h-12 min-h-[48px] min-w-[48px] flex items-center justify-center p-0"
-              aria-label="Close navigation menu"
-            >
-              <X className="h-6 w-6" />
-            </Button>
-          </div>
+      {/* Mobile Menu Overlay with Smooth Slide & Fade Transition */}
+      <div
+        data-lenis-prevent
+        className={`fixed inset-0 bg-black z-[999] lg:hidden flex flex-col h-[100dvh] w-screen transition-all duration-300 ease-out ${
+          isOpen
+            ? "opacity-100 translate-y-0 pointer-events-auto"
+            : "opacity-0 -translate-y-4 pointer-events-none"
+        }`}
+        style={{ top: 0 }}
+      >
+        {/* Close bar at top — matches header height */}
+        <div className="bg-black border-b border-white/10 flex items-center justify-between px-4 py-4 min-h-[70px] sm:min-h-[90px] flex-shrink-0">
+          <img
+            src="/images/logo.png"
+            alt="Smoove Luxury Transportation"
+            className="h-12 sm:h-14 w-auto object-contain"
+          />
+          <button
+            onClick={() => setIsOpen(false)}
+            className="text-white hover:bg-white/10 active:scale-90 w-12 h-12 min-h-[48px] min-w-[48px] flex items-center justify-center rounded-md transition-all duration-200"
+            aria-label="Close navigation menu"
+          >
+            <div className="relative w-5 h-4 flex flex-col justify-between">
+              <span className="block h-0.5 w-5 bg-[#b3122e] rounded-full rotate-45 translate-y-[7px]" />
+              <span className="block h-0.5 w-5 bg-[#b3122e] rounded-full -rotate-45 -translate-y-[7px]" />
+            </div>
+          </button>
+        </div>
 
           {/* Nav links */}
-          <div className="flex-1 overflow-y-auto bg-black px-6 pt-6 pb-32">
+          <div data-lenis-prevent className="flex-1 overflow-y-auto bg-black px-6 pt-6 pb-32">
             <div className="space-y-1">
               {navLinks.map((link) => (
                 <div key={link.name}>
@@ -317,8 +346,7 @@ const Header = () => {
             </div>
           </div>
         </div>
-      )}
-    </header>
+      </header>
   );
 };
 

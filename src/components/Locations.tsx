@@ -71,29 +71,29 @@ const Locations = () => {
             </section>
 
             {/* Location Section */}
-            <section id="locations" className="py-20 md:py-32 bg-white overflow-hidden">
+            <section id="locations" className="py-20 md:py-32 bg-black text-white overflow-hidden border-b border-white/10">
                 <div className="container mx-auto px-4 md:px-6 lg:px-8">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
 
                         {/* Left Column: Map */}
                         <RevealOnScroll animation="fade-in" className="order-2 lg:order-1">
-                            <div className="relative rounded-sm overflow-hidden border border-gray-200 shadow-lg h-[450px] md:h-[550px]">
+                            <div className="relative rounded-sm overflow-hidden border border-white/10 shadow-lg h-[450px] md:h-[550px]">
                                 <iframe
                                     src="https://maps.google.com/maps?q=Brooklyn%2C%20New%20York&t=&z=10&ie=UTF8&iwloc=&output=embed"
                                     width="100%"
                                     height="100%"
-                                    style={{ border: 0, filter: "grayscale(0.2) contrast(1.1)" }}
+                                    style={{ border: 0, filter: "grayscale(0.6) invert(0.9) contrast(1.2)" }}
                                     allowFullScreen
                                     loading="lazy"
                                     referrerPolicy="no-referrer-when-downgrade"
                                     className="w-full h-full"
                                 ></iframe>
-                                <div className="absolute inset-0 pointer-events-none border-[15px] border-white/10"></div>
+                                <div className="absolute inset-0 pointer-events-none border-[15px] border-black/40"></div>
 
                                 {/* Overlay Label */}
-                                <div className="absolute top-6 left-6 bg-white px-4 py-2 shadow-xl border border-gray-100">
-                                    <span className="text-[10px] font-bold uppercase tracking-widest text-gray-900 flex items-center gap-2">
-                                        <span className="w-2 h-2 rounded-full bg-black animate-pulse"></span>
+                                <div className="absolute top-6 left-6 bg-black/90 px-4 py-2 shadow-xl border border-white/20">
+                                    <span className="text-[10px] font-bold uppercase tracking-widest text-white flex items-center gap-2">
+                                        <span className="w-2 h-2 rounded-full bg-[#b3122e] animate-pulse"></span>
                                         Service Areas
                                     </span>
                                 </div>
@@ -103,36 +103,36 @@ const Locations = () => {
                         {/* Right Column: Content */}
                         <div className="flex flex-col space-y-8 order-1 lg:order-2">
                             <div className="space-y-6">
-                                <span className="inline-block px-3 py-1 border border-gray-300 text-[10px] md:text-xs font-bold tracking-widest uppercase text-gray-900">
+                                <span className="inline-block px-3 py-1 border border-white/20 text-[10px] md:text-xs font-bold tracking-widest uppercase text-white">
                                     SERVICE AREAS
                                 </span>
-                                <h2 className="text-4xl md:text-5xl lg:text-5xl font-normal text-gray-900 leading-tight tracking-tight">
+                                <h2 className="text-4xl md:text-5xl lg:text-5xl font-normal text-white leading-tight tracking-tight">
                                     Serving the Tri-State <br />
                                     &amp; Beyond
                                 </h2>
-                                <p className="text-gray-600 text-lg leading-relaxed max-w-lg">
+                                <p className="text-zinc-400 text-lg leading-relaxed max-w-lg">
                                     Smoove Luxury Transportation brings premium chauffeurs and luxury vehicles right to your door. Whether you're in
-                                    <span className="font-bold"> New York, New Jersey, Pennsylvania, Connecticut, Atlanta, or Miami</span> — or anywhere across all 50 states + countries — we've got you covered.
+                                    <span className="font-bold text-white"> New York, New Jersey, Pennsylvania, Connecticut, Atlanta, or Miami</span> — or anywhere across all 50 states + countries — we've got you covered.
                                 </p>
                             </div>
 
                             <div className="space-y-4">
-                                <div className="flex items-start space-x-4 p-4 bg-gray-50 border border-gray-100">
-                                    <div className="w-10 h-10 bg-black text-white flex items-center justify-center flex-shrink-0">
+                                <div className="flex items-start space-x-4 p-4 bg-white/5 border border-white/10">
+                                    <div className="w-10 h-10 bg-[#b3122e] text-white flex items-center justify-center flex-shrink-0">
                                         <ChevronRight className="w-5 h-5" />
                                     </div>
                                     <div>
-                                        <h4 className="font-bold text-gray-900 mb-1">Headquarters</h4>
-                                        <p className="text-gray-600">Brooklyn, NY</p>
+                                        <h4 className="font-bold text-white mb-1">Headquarters</h4>
+                                        <p className="text-zinc-400">Brooklyn, NY</p>
                                     </div>
                                 </div>
-                                <div className="flex items-start space-x-4 p-4 bg-gray-50 border border-gray-100">
-                                    <div className="w-10 h-10 bg-black text-white flex items-center justify-center flex-shrink-0">
+                                <div className="flex items-start space-x-4 p-4 bg-white/5 border border-white/10">
+                                    <div className="w-10 h-10 bg-[#b3122e] text-white flex items-center justify-center flex-shrink-0">
                                         <ChevronRight className="w-5 h-5" />
                                     </div>
                                     <div>
-                                        <h4 className="font-bold text-gray-900 mb-1">Additional Areas</h4>
-                                        <p className="text-gray-600">NY &nbsp;•&nbsp; NJ &nbsp;•&nbsp; PA &nbsp;•&nbsp; CT &nbsp;•&nbsp; Atlanta, GA &nbsp;•&nbsp; Miami, FL &nbsp;•&nbsp; All 50 States</p>
+                                        <h4 className="font-bold text-white mb-1">Additional Areas</h4>
+                                        <p className="text-zinc-400">NY &nbsp;•&nbsp; NJ &nbsp;•&nbsp; PA &nbsp;•&nbsp; CT &nbsp;•&nbsp; Atlanta, GA &nbsp;•&nbsp; Miami, FL &nbsp;•&nbsp; All 50 States</p>
                                     </div>
                                 </div>
                             </div>

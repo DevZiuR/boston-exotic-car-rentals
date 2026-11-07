@@ -160,15 +160,25 @@ const Hero = () => {
       </div>
 
       {/* Scroll indicator */}
+      {/*
       <div
         className="absolute bottom-6 md:bottom-8 left-1/2 -translate-x-1/2 z-10 animate-bounce cursor-pointer opacity-50 hover:opacity-100 transition-opacity"
         onClick={() => {
           const element = document.getElementById("services") || document.getElementById("fleet");
-          if (element) element.scrollIntoView({ behavior: "smooth" });
+          if (element) {
+            const header = document.querySelector("header");
+            const headerHeight = header ? header.getBoundingClientRect().height : 80;
+            if (window.lenis) {
+              window.lenis.scrollTo(element, { offset: -headerHeight, duration: 1.4 });
+            } else {
+              element.scrollIntoView({ behavior: "smooth" });
+            }
+          }
         }}
       >
         <ChevronDown className="w-8 h-8 text-white" />
       </div>
+      */}
     </section>
   );
 };

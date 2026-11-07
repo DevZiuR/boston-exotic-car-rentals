@@ -5,6 +5,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import ScrollToTop from "@/components/ScrollToTop";
+import SmoothScroll from "@/components/SmoothScroll";
 
 // Route-level code splitting — each page is a separate JS chunk
 const Index = lazy(() => import("./pages/Index"));
@@ -21,18 +22,20 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <ScrollToTop />
-        <Suspense fallback={null}>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/fleet" element={<Fleet />} />
-            {/* Hide individual vehicle pages: redirect any /fleet/* request to /#fleet */}
-            <Route path="/fleet/:slug" element={<Navigate to="/#fleet" replace />} />
-            <Route path="/fleet/*" element={<Navigate to="/#fleet" replace />} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </Suspense>
+        <SmoothScroll>
+          <ScrollToTop />
+          <Suspense fallback={null}>
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/fleet" element={<Fleet />} />
+              {/* Hide individual vehicle pages: redirect any /fleet/* request to /#fleet */}
+              <Route path="/fleet/:slug" element={<Navigate to="/#fleet" replace />} />
+              <Route path="/fleet/*" element={<Navigate to="/#fleet" replace />} />
+              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </Suspense>
+        </SmoothScroll>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

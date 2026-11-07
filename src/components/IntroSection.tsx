@@ -19,7 +19,7 @@ const IntroSection = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative bg-[#f5f2ed] text-[#0b0b0e] overflow-hidden"
+      className="relative bg-[#07070a] text-white overflow-hidden border-b border-white/10"
       style={{
         paddingTop: "clamp(96px, 12vw, 180px)",
         paddingBottom: "clamp(96px, 12vw, 180px)",
@@ -45,14 +45,14 @@ const IntroSection = () => {
 
           {/* Headline: Display serif, sentence case (no uppercase), clamp(2.5rem, 5.5vw, 5rem), 'arrival' in italic */}
           <h2
-            className="font-serif font-normal text-[#0b0b0e] leading-[1.08] tracking-[-0.015em] mb-6 sm:mb-8 text-center"
+            className="font-serif font-normal text-white leading-[1.08] tracking-[-0.015em] mb-6 sm:mb-8 text-center"
             style={{ fontSize: "clamp(2.5rem, 5.5vw, 5rem)" }}
           >
             Every ride, an <em className="italic font-serif">arrival</em>.
           </h2>
 
           {/* Subline: body #5b5b63, 18px, max-width 560px, centered */}
-          <p className="text-[18px] text-[#5b5b63] font-sans leading-relaxed max-w-[560px] mx-auto text-center">
+          <p className="text-[18px] text-zinc-400 font-sans leading-relaxed max-w-[560px] mx-auto text-center">
             Airport transfers, nights out, events and photoshoots. Chauffeured by the hour in the Tri-State, Atlanta and Miami.
           </p>
         </motion.div>

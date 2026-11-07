@@ -43,7 +43,7 @@ const faqs = [
 
 const FAQ = () => {
     return (
-        <section id="faq" className="py-24 lg:py-32 bg-[#f5f2ed] text-[#0b0b0e] overflow-hidden">
+        <section id="faq" className="py-24 lg:py-32 bg-[#07070a] text-white overflow-hidden border-b border-white/10">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20">
 
@@ -54,7 +54,7 @@ const FAQ = () => {
                                 FAQ
                             </span>
 
-                            <h2 className="text-5xl md:text-6xl lg:text-6xl font-serif font-normal text-[#0b0b0e] leading-[1.1]">
+                            <h2 className="text-5xl md:text-6xl lg:text-6xl font-serif font-normal text-white leading-[1.1]">
                                 Frequently<br />
                                 Asked
                             </h2>
@@ -69,12 +69,12 @@ const FAQ = () => {
                                     <StaggerItem key={index} className="mb-3">
                                         <AccordionItem
                                             value={`item-${index}`}
-                                            className="border-0 shadow-none bg-white rounded-xl overflow-hidden"
+                                            className="border border-white/10 shadow-none bg-[#161616] rounded-xl overflow-hidden"
                                         >
-                                            <AccordionTrigger className="bg-white hover:bg-black/[0.02] border-0 shadow-none px-6 py-5 rounded-xl text-sm md:text-base font-bold tracking-[0.05em] uppercase text-[#0b0b0e] text-left transition-colors [&[data-state=open]]:rounded-b-none [&[data-state=open]]:border-b [&[data-state=open]]:border-[rgba(0,0,0,0.08)] [&>svg]:text-[#0b0b0e]">
+                                            <AccordionTrigger className="bg-[#161616] hover:bg-white/5 border-0 shadow-none px-6 py-5 rounded-xl text-sm md:text-base font-bold tracking-[0.05em] uppercase text-white text-left transition-colors [&[data-state=open]]:rounded-b-none [&[data-state=open]]:border-b [&[data-state=open]]:border-white/10 [&>svg]:text-white">
                                                 {faq.question}
                                             </AccordionTrigger>
-                                            <AccordionContent className="bg-white border-0 shadow-none px-6 pb-6 pt-3 rounded-b-xl text-[#5b5b63] font-sans text-base leading-relaxed">
+                                            <AccordionContent className="bg-[#161616] border-0 shadow-none px-6 pb-6 pt-3 rounded-b-xl text-zinc-400 font-sans text-base leading-relaxed">
                                                 {faq.answer}
                                             </AccordionContent>
                                         </AccordionItem>

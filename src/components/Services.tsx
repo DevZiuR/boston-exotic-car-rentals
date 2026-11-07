@@ -40,21 +40,21 @@ const Services = () => {
   }, [activeCategory, searchQuery]);
 
   return (
-    <section id="services" className="py-20 lg:py-28 bg-white overflow-hidden">
+    <section id="services" className="py-20 lg:py-28 bg-[#07070a] text-white overflow-hidden border-b border-white/10">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Section Header (Reveals right after section divider) */}
         <RevealOnScroll isHeading>
           <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-8 mb-14">
             <div className="max-w-2xl space-y-3">
-              <span className="text-xs font-bold uppercase tracking-[0.2em] text-gray-500 flex items-center gap-2">
-                <span className="w-8 h-[2px] bg-black"></span>
+              <span className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400 flex items-center gap-2">
+                <span className="w-8 h-[2px] bg-[#b3122e]"></span>
                 Live Booking Directory
               </span>
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-normal text-black font-serif leading-[1.05] tracking-tight">
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-normal text-white font-serif leading-[1.05] tracking-tight">
                 Book Our Services.
               </h2>
-              <p className="text-gray-600 text-base md:text-lg font-sans leading-relaxed pt-1">
+              <p className="text-zinc-400 text-base md:text-lg font-sans leading-relaxed pt-1">
                 Select any vehicle, chauffeur route, photoshoot, or celebration package below for instant 24/7 online scheduling.
               </p>
             </div>
@@ -67,7 +67,7 @@ const Services = () => {
                 placeholder="Search by vehicle, city, service..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 text-sm text-black placeholder:text-gray-400 rounded-full focus:outline-none focus:border-black transition-colors"
+                className="w-full pl-11 pr-4 py-3 bg-white/5 border border-white/20 text-sm text-white placeholder:text-zinc-500 rounded-full focus:outline-none focus:border-white transition-colors"
               />
             </div>
           </div>
@@ -75,7 +75,7 @@ const Services = () => {
 
         {/* Category Filter Tabs */}
         <RevealOnScroll delay={150}>
-          <div className="flex items-center gap-2 overflow-x-auto pb-4 mb-10 scrollbar-none border-b border-gray-100">
+          <div className="flex items-center gap-2 overflow-x-auto pb-4 mb-10 scrollbar-none border-b border-white/10">
             {categoryTabs.map((tab) => {
               const count =
                 tab.key === "all"
@@ -88,14 +88,14 @@ const Services = () => {
                   onClick={() => setActiveCategory(tab.key)}
                   className={`flex-shrink-0 px-5 py-2.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-all duration-300 flex items-center gap-2 ${
                     isActive
-                      ? "bg-black text-white shadow-sm"
-                      : "bg-gray-100 text-gray-600 hover:bg-gray-200 hover:text-black"
+                      ? "bg-[#b3122e] text-white shadow-sm"
+                      : "bg-white/5 text-zinc-400 hover:bg-white/10 hover:text-white"
                   }`}
                 >
                   <span>{tab.label}</span>
                   <span
                     className={`text-[10px] px-1.5 py-0.5 rounded-full ${
-                      isActive ? "bg-white/20 text-white" : "bg-gray-200 text-gray-600"
+                      isActive ? "bg-white/20 text-white" : "bg-white/10 text-zinc-400"
                     }`}
                   >
                     {count}
@@ -108,11 +108,11 @@ const Services = () => {
 
         {/* Services List / Cards Grid with 80ms Stagger */}
         {filteredServices.length === 0 ? (
-          <div className="text-center py-16 bg-gray-50 rounded-2xl border border-gray-200">
-            <p className="text-gray-500 text-base">No services found matching "{searchQuery}".</p>
+          <div className="text-center py-16 bg-[#161616] rounded-2xl border border-white/10">
+            <p className="text-zinc-400 text-base">No services found matching "{searchQuery}".</p>
             <button
               onClick={() => { setSearchQuery(""); setActiveCategory("all"); }}
-              className="mt-4 text-xs font-bold uppercase tracking-wider underline hover:text-black"
+              className="mt-4 text-xs font-bold uppercase tracking-wider underline hover:text-white"
             >
               Reset filters
             </button>
@@ -126,11 +126,11 @@ const Services = () => {
                 className="h-full"
               >
                 <div
-                  className="group h-full bg-white border border-gray-200 rounded-2xl p-5 hover:border-black hover:shadow-xl transition-all duration-300 flex flex-col justify-between"
+                  className="group h-full bg-[#161616] border border-white/10 rounded-2xl p-5 hover:border-neutral-700 hover:shadow-xl transition-all duration-300 flex flex-col justify-between"
                 >
                   <div>
                     {/* Top Thumbnail Image */}
-                    <div className="relative aspect-[16/10] overflow-hidden rounded-xl bg-gray-100 mb-4">
+                    <div className="relative aspect-[16/10] overflow-hidden rounded-xl bg-neutral-900 mb-4">
                       <img
                         src={service.image}
                         alt={service.name}
@@ -140,38 +140,38 @@ const Services = () => {
                           (e.target as HTMLImageElement).src = "/images/services/vip service.jpg";
                         }}
                       />
-                      <div className="absolute top-3 left-3 bg-white/95 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider text-black shadow-sm">
+                      <div className="absolute top-3 left-3 bg-black/80 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider text-white shadow-sm border border-white/10">
                         {service.categoryLabel}
                       </div>
-                      <div className="absolute bottom-3 right-3 bg-black/80 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold text-white shadow-sm">
+                      <div className="absolute bottom-3 right-3 bg-black/80 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold text-white shadow-sm border border-white/10">
                         {service.priceDisplay}
                       </div>
                     </div>
 
                     {/* Service Title */}
-                    <h3 className="text-lg font-bold text-black font-serif leading-snug mb-2 group-hover:text-black">
+                    <h3 className="text-lg font-bold text-white font-serif leading-snug mb-2">
                       {service.name}
                     </h3>
 
                     {/* Duration / Min Booking Tag */}
                     <div className="flex items-center gap-2 mb-3">
-                      <span className="inline-flex items-center gap-1 text-[11px] font-medium text-gray-500 bg-gray-100 px-2.5 py-1 rounded-md">
-                        <CalendarCheck className="w-3 h-3 text-black" />
+                      <span className="inline-flex items-center gap-1 text-[11px] font-medium text-zinc-400 bg-white/5 border border-white/10 px-2.5 py-1 rounded-md">
+                        <CalendarCheck className="w-3 h-3 text-[#b3122e]" />
                         {service.durationDisplay}
                       </span>
                     </div>
 
                     {/* Description */}
-                    <p className="text-gray-600 text-xs leading-relaxed line-clamp-3 mb-4">
+                    <p className="text-zinc-400 text-xs leading-relaxed line-clamp-3 mb-4">
                       {service.description}
                     </p>
                   </div>
 
                   {/* Book Button */}
-                  <div className="pt-4 border-t border-gray-100 mt-auto">
+                  <div className="pt-4 border-t border-white/10 mt-auto">
                     <button
                       onClick={() => window.open(service.bookingUrl, "_blank", "noopener,noreferrer")}
-                      className="cta-btn w-full py-3 bg-black text-white hover:bg-neutral-800 uppercase rounded-lg transition-all duration-200 flex items-center justify-center gap-2 shadow-sm"
+                      className="cta-btn w-full py-3 bg-[#b3122e] text-white hover:bg-[#8e0e24] uppercase rounded-lg transition-all duration-200 flex items-center justify-center gap-2 shadow-sm"
                     >
                       <span>Book Online</span>
                       <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
